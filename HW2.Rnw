@@ -158,7 +158,7 @@
   some exciting applications of this distribution? Cite all of your sources.\\
   
   \textbf{Solution:}
-  The Bernoulli distribution is a special case of the binomial distribution, in which each observation can take one of two outcomes.  We define these as a ``success," where the observation of interest occurs, or a ``failure," where it does not.  Thus, the support for this distribution (or ``the set of all possible values of our random variable") is $\chi = \{x \in \{0,1\}\}$ (Chapter 6 Notes, 163).  We use p to denote the probability that a ``success" occurs and $q=1-p$ to denote the probability that a ``failure" occurs. Thus, the probability mass function for the Bernoulli distribution is given by $f_X(x|p)=p^x(1-p)^{1-x}$, where x is either 0 or 1 (Sinharay, 132).  We can write this to be robust to other inputs by including an indicator function, I, such that the PMF is given by $f_X(x|p)=p^x(1-p)^{1-x}I(x\in\{0,1\})$ (Cipolli, 173). The cumulative distribution function of the Bernoulli distribution is given by:
+  The Bernoulli distribution, discussed in both \cite{chap6} and \cite{Bern}, is a special case of the binomial distribution, in which each observation can take one of two outcomes.  We define these as a ``success," where the observation of interest occurs, or a ``failure," where it does not.  Thus, the support for this distribution (or ``the set of all possible values of our random variable") is $\chi = \{x \in \{0,1\}\}$ (Cipolli, 163).  We use p to denote the probability that a ``success" occurs and $q=1-p$ to denote the probability that a ``failure" occurs. Thus, the probability mass function for the Bernoulli distribution is given by $f_X(x|p)=p^x(1-p)^{1-x}$, where x is either 0 or 1 (Sinharay, 132).  We can write this to be robust to other inputs by including an indicator function, I, such that the PMF is given by $f_X(x|p)=p^x(1-p)^{1-x}I(x\in\{0,1\})$ (Cipolli, 173). The cumulative distribution function of the Bernoulli distribution is given by:
 $$ F_X(x|p) = 
 \begin{cases} 
       0 & x < 0 \\
@@ -169,13 +169,8 @@ $$
 (Sinharay, 132).  We could similarly write this using floor operator as:
 $$F_X(x|p) = [(1-p)I(\lfloor x \rfloor = 0)]+I(\lfloor x \rfloor \geq 1)
 $$
-(Cipolli, 173). The Bernoulli distribution is often used to in the context of flipping coins.  A fair coin would be represented by a Bernoulli distribution with both $p$ and $q$ equal to 0.5 (while any other parameter values would represent an unfair coin flip.  I will investigate when the parameters p=0.5, q=0.5 and p=0.7,q=0.3.
+(Cipolli, 173). The Bernoulli distribution is often used to in the context of flipping coins(Sinharay, 132).  A fair coin would be represented by a Bernoulli distribution with both $p$ and $q$ equal to 0.5 (while any other parameter values would represent an unfair coin flip).  I will investigate when the parameters p=0.5, q=0.5 and p=0.7,q=0.3.
 
-  W. Cipolli, in Chapter 6: Probability Distributions, 2021.
-  
-  S. Sinharay, in International Encyclopedia of Education (Third Edition), 2010.
-  
-  
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (b)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -285,7 +280,7 @@ plotbern <- function(prob){ # Pass in the success probability
 	\caption{Bernoulli Distribution PMFs for p=0.25, 0.5, and 0.75.}
 	\label{BernPMF}
 \end{figure}
-	For all valid parameter values, the graph of the Bernoulli PMF shows two lines at the values 0 and 1, corresponding to the probabilities of those observations.  Thereby, the heights of these bars are controlled by the parameter p.  Lower parameter values correspond to a higher bar at X=0 and a lower bar at X=1, because the distribution represents a scenario in which it is more likely for a ``failure'' to occur (X=0) than a ``success" (X=1).  Higher parameter values correspond to a lower bar at X=0 and a higher bar at X=1, because the distribution represents a scenario in which it is more likely for a ``success'' to occur (X=1) than a ``failure" (X=0).  Three example PMFs of the Bernoulli distribution with varied parameter values are shown in figure \ref{BernPMF}.
+	For all valid parameter values, the graph of the Bernoulli PMF shows two lines at the values 0 and 1, corresponding to the probabilities of those observations.  Thereby, the heights of these bars are controlled by the parameter p.  Lower parameter values correspond to a higher bar at X=0 and a lower bar at X=1, because the distribution represents a scenario in which it is more likely for a ``failure'' to occur (X=0) than a ``success" (X=1).  Higher parameter values correspond to a lower bar at X=0 and a higher bar at X=1, because the distribution represents a scenario in which it is more likely for a ``success'' to occur (X=1) than a ``failure" (X=0).  Three example PMFs of the Bernoulli distribution with varied parameter values are shown in figure \ref{BernPMF}.  I create these figures using \cite{ggplot}, \cite{tidyvers}, and \cite{patchwork}, and these are used throughout the homework to create plots.
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (e)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -357,105 +352,141 @@ x.10.75   <-data.frame(rbern(10, .75))
 x.25.75   <-data.frame(rbern(25, .75))
 x.100.75  <-data.frame(rbern(100, .75))
 x.1000.75 <-data.frame(rbern(1000, .75))
-# ggdat <- data.frame(x = (-1:2),
-#                       f = dbern(x = (-1:2), prob = 0.5),
-#                       F = pbern(q = (-1:2), prob = 0.5))
+## PMF for p=0.5 
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = 0.5),
+                      F = pbern(q = (-1:2), prob = 0.5))
 
-# g1<-ggplot(NULL, aes(x=x.10.50$rbern.10..0.5.)) +       #which data to plot
-#   geom_histogram(data=x.10.50, breaks=seq(-0.5,1.5,1),                #Set up bins to use
-#                  fill = "lightgrey", color="black") +   #color the histogram
-#   geom_linerange(data = ggdat, aes(ymax = f), ymin = 0) +
-#   xlab("X") +                                           #x axis label
-#   ylab("Frequency")+                                    #y axis label
-#   ggtitle("Random Bernoulli Distribution with p=.5") +  #add title to plot
-#   theme_bw()+                                           #removes grey background 
-#   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-#   xlim(-1,2)                                            # show the full density plot
-
-g1<-ggplot(data=x.10.50) +       #which data to plot
-  geom_histogram(aes(x=rbern.10..0.5.), breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)
-  #geom_linerange(aes(x=c(0,1), ymax=c(5,5), ymin=0))
+g1<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.10.50,                          #uses random sample
+                 aes(x=rbern.10..0.5.),                 #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.5") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.5 and n=10") +           #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot 
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
 
-g2<-ggplot(data=x.25.50, aes(x=rbern.25..0.5.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+g2<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.25.50,                          #uses random sample
+                 aes(x=rbern.25..0.5.),                 #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.5") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.5 and n=25") +           #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot 
-
-g3<-ggplot(data=x.100.50, aes(x=rbern.100..0.5.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+  
+g3<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.100.50,                         #uses random sample
+                 aes(x=rbern.100..0.5.),                #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.5") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.5 and n=100") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot
-
-g4<-ggplot(data=x.1000.50, aes(x=rbern.1000..0.5.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+  
+  
+g4<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.1000.50,                        #uses random sample
+                 aes(x=rbern.1000..0.5.),               #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.5") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.5 and n=1000") +         #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot 
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
 
-g5<-ggplot(data=x.10.75, aes(x=rbern.10..0.75.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+## PMF for p=0.5 
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = 0.75),
+                      F = pbern(q = (-1:2), prob = 0.75))
+
+g5<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.10.75,                          #uses random sample
+                 aes(x=rbern.10..0.75.),                #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.75") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.75 and n=10") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
 
-g6<-ggplot(data=x.25.75, aes(x=rbern.25..0.75.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+g6<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.25.75,                          #uses random sample
+                 aes(x=rbern.25..0.75.),                #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.75") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.75 and n=25") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot 
-
-g7<-ggplot(data=x.100.75, aes(x=rbern.100..0.75.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+  
+g7<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.100.75,                         #uses random sample
+                 aes(x=rbern.100..0.75.),               #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.75") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.75 and n=100") +         #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot
-
-g8<-ggplot(data=x.1000.75, aes(x=rbern.1000..0.75.)) +       #which data to plot
-  geom_histogram(breaks=seq(-0.5,1.5,1),                #Set up bins to use
-                 fill = "lightgrey", color="black") +   #color the histogram)  
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+  
+  
+g8<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.1000.75,                        #uses random sample
+                 aes(x=rbern.1000..0.75.),               #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
-  ggtitle("Random Bernoulli Distribution with p=.75") +  #add title to plot
-  theme_bw()+                                           #removes grey background 
+  ggtitle("Random Bernoulli Distribution", 
+          subtitle = "With p=0.75 and n=1000") +        #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
-  xlim(-1,2)                                            # show the full density plot 
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+@
+\begin{figure}[H]
+\centering
+<<>>=
 (g1 + g5) / (g2 + g6) / (g3 + g7) / (g4 + g8)
 @
-  The greater the size of our random sample, the closer, generally, the observations we make are to the number we would predict from the 
+\caption{Bernoulli Distributionsfor randomly generated samples, with varied n and p.  The red lines prepresent the PMF, while the histograms show the observed counts.}
+\label{BernRand}
+\end{figure}
+  The greater the size of our random samples, the closer, generally, the spread of the observations we make are to the number we would predict from the PMF.  We can see this in that the heights of the grey histogram bars seem to get closer to the red lines that represent the PMF's prediction.
 	\end{enumerate}
+	\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Question 4 
@@ -481,7 +512,16 @@ bern.summ <- function(p){
 bern.summ(0.5)
 bern.summ(0.75)
 @
-In the case of the Bernoulli distribution, the mean of the PMF is the parameter p.
+For the parameter 0.5, both the mean and standard deviation are 0.5.  This makes 
+sense, as with this probability, there are an equal number of observations of 0 
+and 1, making the mean 0.5 and standard deviation 0.5 (as both 0 and 1 are 0.5 away 
+from the mean 0.5).  Because it is a symmetric distribution, the skewness is zero.
+The kurtosis is -2, representing this flat, platykurtic distribution.
+
+For the parameter 0.75, both the mean is 0.75 and with standard deviation 0.433.
+Because it is not symmetric distribution, with higher values occuring more frequently,
+the skewness is -1.15. The kurtosis is -0.67, again representing a platykurtic distribution.
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (b)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -489,7 +529,70 @@ In the case of the Bernoulli distribution, the mean of the PMF is the parameter 
   two sets of parameter(s). Calculate the sample mean, standard deviation, 
   skewness, and kurtosis. Interpret the results.\\
   \textbf{Solution:}
-  
+    <<>>=
+library(e1071)
+## n=10, p=0.5
+x.10.50   <-rbern(10, .5)
+c(mean(x.10.50),
+  sd(x.10.50),
+  skewness(x.10.50),
+  kurtosis(x.10.50))
+
+## n=25, p=0.5
+x.25.50   <-rbern(25, .5)
+c(mean(x.25.50),
+  sd(x.25.50),
+  skewness(x.25.50),
+  kurtosis(x.25.50))
+
+## n=100, p=0.5
+x.100.50  <-rbern(100, .5)
+c(mean(x.100.50),
+  sd(x.100.50),
+  skewness(x.100.50),
+  kurtosis(x.100.50))
+
+## n=1000, p=0.5
+x.1000.50 <-rbern(1000, .5)
+c(mean(x.1000.50),
+  sd(x.1000.50),
+  skewness(x.1000.50),
+  kurtosis(x.1000.50))
+
+## n=10, p=0.75
+x.10.75   <-rbern(10, .75)
+c(mean(x.10.75),
+  sd(x.10.50),
+  skewness(x.10.75),
+  kurtosis(x.10.75))
+
+## n=25, p=0.75
+x.25.75   <-rbern(25, .75)
+c(mean(x.25.75),
+  sd(x.25.50),
+  skewness(x.25.75),
+  kurtosis(x.25.75))
+
+## n=100, p=0.75
+x.100.75  <-rbern(100, .75)
+c(mean(x.100.75),
+  sd(x.100.75),
+  skewness(x.100.75),
+  kurtosis(x.100.75))
+
+## n=1000, p=0.75
+x.1000.75 <-rbern(1000, .75)
+c(mean(x.1000.75),
+  sd(x.1000.75),
+  skewness(x.1000.75),
+  kurtosis(x.1000.75))
+@
+The values seen here are close to the ones predicted above.  We can see that in the cases that p=0.5,
+the mean, standard deviation, skewness, and kurtosis remain relatively close to the predicted
+0.5, 0.5, 0, and -2, respectively.  Similarly, in the cases that p=0.75, the mean, standard deviation, skewness, and 
+kurtosis remain relatively close to the predicted 0.75, 0.433, -1.15, and -0.67.
+Further, it seems that generally, as n increases, the summary statistics derived from observation approach
+those predicted.  The package e1071, from \cite{e1071}, is used for the calculation of skewness and kurtosis.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (c)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -515,7 +618,8 @@ In the case of the Bernoulli distribution, the mean of the PMF is the parameter 
   Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
   In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
   with (1) the method of moments estimated distribution, (2) the maximum likelihood
-  estimated distribution, and superimpose the true distribution in both.
+  estimated distribution, and superimpose the true distribution in both.\\
+  \textbf{Solution:}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -528,7 +632,9 @@ In the case of the Bernoulli distribution, the mean of the PMF is the parameter 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (g)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Comment on the results of parts (c)-(f). 
+  \item Comment on the results of parts (c)-(f).\\
+  \textbf{Solution:}
+  
 \end{enumerate}
 \end{enumerate}%End overall enumerate
 \newpage
