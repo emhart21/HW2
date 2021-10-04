@@ -83,60 +83,766 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Continue with the continuous distribution you selected for Question \ref{Q1}.
 \begin{enumerate}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (a)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Provide the mean, standard deviation, skewness, and kurtosis of the PDF.
-  Ensure to interpret each.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (b)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
-  two sets of parameter(s). Calculate the sample mean, standard deviation, 
-  skewness, and kurtosis. Interpret the results.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (c)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Generate a random sample of size $n=10$ for your two sets of parameter(s).
-  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
-  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
-  of moments estimated distribution, (2) the maximum likelihood estimated 
-  distribution, and superimpose the true distribution in both.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (d)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Generate a random sample of size $n=25$ for your two sets of parameter(s).
-  Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
-  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
-  of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
-  and superimpose the true distribution in both.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (e)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Generate a random sample of size $n=100$ for your two sets of parameter(s). 
-  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
-  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
-  of moments estimated distribution, (2) the maximum likelihood estimated distribution,
-  and superimpose the true distribution in both.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (f)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Generate a random sample of size $n=100$ for your two sets of parameter(s). 
-  Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
-  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
-  of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
-  and superimpose the true distribution in both.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%%%%%  Part (g)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item Comment on the results of parts (c)-(f).\\
-  \textbf{Solution:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (a)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Provide the mean, standard deviation, skewness, and kurtosis of the PDF.
+Ensure to interpret each.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (b)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+two sets of parameter(s). Calculate the sample mean, standard deviation, 
+skewness, and kurtosis. Interpret the results.
+
+<<>>=
+n10.m0.sd1 <- rnorm(10, 0, 1)
+n25.m0.sd1 <- rnorm(25, 0, 1)
+n100.m0.sd1 <- rnorm(100, 0, 1)
+n1000.m0.sd1 <- rnorm(1000, 0, 1)
+
+n10.m1.sd2 <- rnorm(10, 1, 2)
+n25.m1.sd2 <- rnorm(25, 1, 2)
+n100.m1.sd2 <- rnorm(100, 1, 2)
+n1000.m1.sd2 <- rnorm(1000, 1, 2)
+
+library(tidyverse)
+library(e1071)
+
+#summarize first distribution 
+c(mean(n10.m0.sd1),
+sd(n10.m0.sd1),
+skewness(n10.m0.sd1),
+kurtosis(n10.m0.sd1))
+
+c(mean(n25.m0.sd1),
+sd(n25.m0.sd1),
+skewness(n25.m0.sd1),
+kurtosis(n25.m0.sd1))
+
+c(mean(n100.m0.sd1),
+sd(n100.m0.sd1),
+skewness(n100.m0.sd1),
+kurtosis(n100.m0.sd1))
+
+c(mean(n1000.m0.sd1),
+sd(n1000.m0.sd1),
+skewness(n1000.m0.sd1),
+kurtosis(n1000.m0.sd1))
+
+#sumarize second distribution 
+c(mean(n10.m1.sd2),
+sd(n10.m1.sd2),
+skewness(n10.m1.sd2),
+kurtosis(n10.m1.sd2))
+
+c(mean(n25.m1.sd2),
+sd(n25.m1.sd2),
+skewness(n25.m1.sd2),
+kurtosis(n25.m1.sd2))
+
+c(mean(n100.m1.sd2),
+sd(n100.m1.sd2),
+skewness(n100.m1.sd2),
+kurtosis(n100.m1.sd2))
+
+c(mean(n1000.m1.sd2),
+sd(n1000.m1.sd2),
+skewness(n1000.m1.sd2),
+kurtosis(n1000.m1.sd2)) 
+
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (c)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated 
+distribution, and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 10, par 1 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n10.m0.sd1)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n10.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 10")) 
+
+#################################### n = 10, par 2 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n10.m1.sd2)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n10.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 10")) 
+
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (d)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=25$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
+and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 25, par 1 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n25.m0.sd1)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n25.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MAximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 25")) 
+
+#################################### n = 25, par 2 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n25.m1.sd2)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n25.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 25")) 
+
+
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (e)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=100$ for your two sets of parameter(s). 
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated distribution,
+and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 100, par 1 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n100.m0.sd1)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n100.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 100")) 
+
+#################################### n = 100, par 2 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n100.m1.sd2)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n100.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 100")) 
+
+
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (f)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=1000$ for your two sets of parameter(s). 
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
+and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 1000, par 1 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n1000.m0.sd1)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n1000.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 1000")) 
+
+#################################### n = 1000, par 2 #################################
+#MOM: n = 10
+norm.mom <- function(par,data){
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data)
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2)
+}
+library(nleqslv)
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n1000.m1.sd2)
+
+#create MOM plot: n = 10
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+ggdat.mom <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Method of Moments Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n1000.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001),
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
+                        F2 = dnorm(seq(-6,6,0.001), 
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Maximum Likelihood Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 1000")) 
+
+
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (g)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Comment on the results of parts (c)-(f). 
 \end{enumerate}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
