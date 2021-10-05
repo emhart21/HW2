@@ -986,7 +986,7 @@ plotbern <- function(prob){ # Pass in the success probability
 	\caption{Bernoulli Distribution PMFs for p=0.25, 0.5, and 0.75.}
 	\label{BernPMF}
 \end{figure}
-	For all valid parameter values, the graph of the Bernoulli PMF shows two lines at the values 0 and 1, corresponding to the probabilities of those observations.  Thereby, the heights of these bars are controlled by the parameter p.  Lower parameter values correspond to a higher bar at X=0 and a lower bar at X=1, because the distribution represents a scenario in which it is more likely for a ``failure'' to occur (X=0) than a ``success" (X=1).  Higher parameter values correspond to a lower bar at X=0 and a higher bar at X=1, because the distribution represents a scenario in which it is more likely for a ``success'' to occur (X=1) than a ``failure" (X=0).  Three example PMFs of the Bernoulli distribution with varied parameter values are shown in figure \ref{BernPMF}.  I create these figures using \cite{ggplot}, \cite{tidyvers}, and \cite{patchwork}, and these are used throughout the homework to create plots.
+	For all valid parameter values, the graph of the Bernoulli PMF shows two lines at the values 0 and 1, corresponding to the probabilities of those observations.  Thereby, the heights of these bars are controlled by the parameter p.  Lower parameter values correspond to a higher bar at X=0 and a lower bar at X=1, because the distribution represents a scenario in which it is more likely for a ``failure'' to occur (X=0) than a ``success" (X=1).  Higher parameter values correspond to a lower bar at X=0 and a higher bar at X=1, because the distribution represents a scenario in which it is more likely for a ``success'' to occur (X=1) than a ``failure" (X=0).  Three example PMFs of the Bernoulli distribution with varied parameter values are shown in figure \ref{BernPMF}.  I create these figures using \cite{ggplot}, \cite{tidyverse}, and \cite{patchwork}, and these are used throughout the homework to create plots.
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (e)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1212,7 +1212,8 @@ bern.summ <- function(p){
   bern.sd   <- sqrt(p*(1-p))         #sqrt of variance
   bern.skew <- (1-2*p)/bern.sd        
   bern.kurt <- (1-6*p*(1-p))/(p*(1-p))
-  return(c(bern.mean,bern.sd,bern.skew,bern.kurt))
+  datf <- data.frame(mean=bern.mean, sd=bern.sd, skew=bern.skew, kurt=bern.kurt)
+  return(datf)
 }
 
 bern.summ(0.5)
@@ -1237,61 +1238,38 @@ the skewness is -1.15. The kurtosis is -0.67, again representing a platykurtic d
   \textbf{Solution:}
     <<>>=
 library(e1071)
+bern.rand.summ <- function(n,p){
+  obs<-rbern(n, p)
+  bern.mean <- mean(obs)
+  bern.sd   <- sd(obs)
+  bern.skew <- skewness(obs)
+  bern.kurt <- kurtosis(obs)
+  datf <- data.frame(mean=bern.mean, sd=bern.sd, skew=bern.skew, kurt=bern.kurt)
+  return(datf)
+}
 ## n=10, p=0.5
-x.10.50   <-rbern(10, .5)
-c(mean(x.10.50),
-  sd(x.10.50),
-  skewness(x.10.50),
-  kurtosis(x.10.50))
+bern.rand.summ(10,.5)
 
 ## n=25, p=0.5
-x.25.50   <-rbern(25, .5)
-c(mean(x.25.50),
-  sd(x.25.50),
-  skewness(x.25.50),
-  kurtosis(x.25.50))
+bern.rand.summ(25,.5)
 
 ## n=100, p=0.5
-x.100.50  <-rbern(100, .5)
-c(mean(x.100.50),
-  sd(x.100.50),
-  skewness(x.100.50),
-  kurtosis(x.100.50))
+bern.rand.summ(100,.5)
 
 ## n=1000, p=0.5
-x.1000.50 <-rbern(1000, .5)
-c(mean(x.1000.50),
-  sd(x.1000.50),
-  skewness(x.1000.50),
-  kurtosis(x.1000.50))
+bern.rand.summ(1000,.5)
 
 ## n=10, p=0.75
-x.10.75   <-rbern(10, .75)
-c(mean(x.10.75),
-  sd(x.10.50),
-  skewness(x.10.75),
-  kurtosis(x.10.75))
+bern.rand.summ(10, .75)
 
 ## n=25, p=0.75
-x.25.75   <-rbern(25, .75)
-c(mean(x.25.75),
-  sd(x.25.50),
-  skewness(x.25.75),
-  kurtosis(x.25.75))
+bern.rand.summ(25, .75)
 
 ## n=100, p=0.75
-x.100.75  <-rbern(100, .75)
-c(mean(x.100.75),
-  sd(x.100.75),
-  skewness(x.100.75),
-  kurtosis(x.100.75))
+bern.rand.summ(100, .75)
 
 ## n=1000, p=0.75
-x.1000.75 <-rbern(1000, .75)
-c(mean(x.1000.75),
-  sd(x.1000.75),
-  skewness(x.1000.75),
-  kurtosis(x.1000.75))
+bern.rand.summ(1000, .75)
 @
 The values seen here are close to the ones predicted above.  We can see that in the cases that p=0.5,
 the mean, standard deviation, skewness, and kurtosis remain relatively close to the predicted
@@ -1308,6 +1286,10 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood 
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
+  <<>>=
+x.10.50   <-data.frame(rbern(10, .5))
+x.10.75   <-data.frame(rbern(10, .75))
+@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (d)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1317,6 +1299,10 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood 
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
+    <<>>=
+x.25.50   <-data.frame(rbern(25, .5))
+x.25.75   <-data.frame(rbern(25, .75))
+@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (e)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1326,6 +1312,10 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
+    <<>>=
+x.100.50  <-data.frame(rbern(100, .5))
+x.100.75  <-data.frame(rbern(100, .75))
+@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1335,6 +1325,10 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
+    <<>>=
+x.1000.50 <-data.frame(rbern(1000, .5))
+x.1000.75 <-data.frame(rbern(1000, .75))
+@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (g)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
