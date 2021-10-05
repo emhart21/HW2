@@ -1,17 +1,212 @@
 \documentclass{article}
-\usepackage{amsmath} 
-\usepackage{amsfonts}
-\usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{amsmath} %This allows me to use the align functionality.
+                     %If you find yourself trying to replicate
+                     %something you found online, ensure you're
+                     %loading the necessary packages!
+\usepackage{amsfonts}%Math font
+\usepackage{graphicx}%For including graphics
+\usepackage{hyperref}%For Hyperlinks
 \hypersetup{colorlinks = true,citecolor=black}
-\usepackage{natbib}
-\bibliographystyle{apalike}
+\usepackage{natbib}        %For the bibliography
+\bibliographystyle{apalike}%For the bibliography
 \usepackage[margin=1.0in]{geometry}
 \usepackage{float}
-
 \begin{document}
+\noindent \textbf{MA 354: Data Analysis -- Fall 2021 -- Due 10/8 at 5p}\\%\\ gives you a new line
+\noindent \textbf{Homework 2: Question 4}\vspace{1em}\\
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 4 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Continue with the discrete distribution you selected for Question 3.
+\begin{enumerate}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (a)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Provide the mean, standard deviation, skewness, and kurtosis of the PMF. 
+  Ensure to interpret each.\\
+  \textbf{Solution:}
+  <<>>=
+  rbern<-function(n,p){
+  support<-c(0,1)
+  x<-sample(x=support, size=n, replace=TRUE, prob=dbern(support, p=p))
+  return(x)
+  }
+  library("tidyverse")
+library("ggplot2")
+library("patchwork")
+	
+#############################################################
+###Bernoulli Distribution ###################################
+#############################################################
+dbern<-function(x,prob){                #DEFINING THE PMF
+  if(prob<0 | prob>1){
+    errormsg <- "This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  indicator <- rep(0, length(x))
+  indicator[x==0] <- 1 # indicator should be one if x=0
+  indicator[x==1] <- 1 # indicator should be one if x=1
+  fx <- (prob^x * (1-prob)^(1-x)) * indicator # PMF formula
+  return(fx)
+}
 
+pbern<-function(q, prob){              
+  if(prob<0 | prob>1){
+    errormsg<-"This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  indicator1 <- rep(1, length(q))
+  indicator1[q != 0] <- 0 #indicator should be zero if x!=0
+  indicator2 <- rep(1, length(q))
+  indicator2[q < 1] <- 0 #indicator should be zero if x<1
+  Fx <- (1-prob) * indicator1 + indicator2
+  return(Fx)
+}
+qbern <- function(p, prob){
+  if(prob<0 | prob>1){
+    errormsg<-"This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  if(any(p<0) | any(p>1)){
+    errormsg<-"This function is only valid for percentiles between 0 and 1."
+    stop(errormsg)
+  }
+  q <- rep(1, length(p))
+  q[p <= 1-prob] <- 0 # should return zero if p<=(1-prob)
+  q[p > 1-prob] <- 1  # should return one if p>(1-prob)
+  return(q)
+}
+bern.summ <- function(p){
+  bern.mean <- p                     #mean = expected value = p
+  bern.sd   <- sqrt(p*(1-p))         #sqrt of variance
+  bern.skew <- (1-2*p)/bern.sd        
+  bern.kurt <- (1-6*p*(1-p))/(p*(1-p))
+  datf <- data.frame(mean=bern.mean, sd=bern.sd, skew=bern.skew, kurt=bern.kurt)
+  return(datf)
+}
 
+bern.summ(0.5)
+bern.summ(0.75)
+@
+For the parameter 0.5, both the mean and standard deviation are 0.5.  This makes 
+sense, as with this probability, there are an equal number of observations of 0 
+and 1, making the mean 0.5 and standard deviation 0.5 (as both 0 and 1 are 0.5 away 
+from the mean 0.5).  Because it is a symmetric distribution, the skewness is zero.
+The kurtosis is -2, representing this flat, platykurtic distribution.
 
+For the parameter 0.75, both the mean is 0.75 and with standard deviation 0.433.
+Because it is not symmetric distribution, with higher values occuring more frequently,
+the skewness is -1.15. The kurtosis is -0.67, again representing a platykurtic distribution.
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (b)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+  two sets of parameter(s). Calculate the sample mean, standard deviation, 
+  skewness, and kurtosis. Interpret the results.\\
+  \textbf{Solution:}
+    <<>>=
+library(e1071)
+bern.rand.summ <- function(n,p){
+  obs<-rbern(n, p)
+  bern.mean <- mean(obs)
+  bern.sd   <- sd(obs)
+  bern.skew <- skewness(obs)
+  bern.kurt <- kurtosis(obs)
+  datf <- data.frame(mean=bern.mean, sd=bern.sd, skew=bern.skew, kurt=bern.kurt)
+  return(datf)
+}
+## n=10, p=0.5
+bern.rand.summ(10,.5)
+
+## n=25, p=0.5
+bern.rand.summ(25,.5)
+
+## n=100, p=0.5
+bern.rand.summ(100,.5)
+
+## n=1000, p=0.5
+bern.rand.summ(1000,.5)
+
+## n=10, p=0.75
+bern.rand.summ(10, .75)
+
+## n=25, p=0.75
+bern.rand.summ(25, .75)
+
+## n=100, p=0.75
+bern.rand.summ(100, .75)
+
+## n=1000, p=0.75
+bern.rand.summ(1000, .75)
+@
+The values seen here are close to the ones predicted above.  We can see that in the cases that p=0.5,
+the mean, standard deviation, skewness, and kurtosis remain relatively close to the predicted
+0.5, 0.5, 0, and -2, respectively.  Similarly, in the cases that p=0.75, the mean, standard deviation, skewness, and 
+kurtosis remain relatively close to the predicted 0.75, 0.433, -1.15, and -0.67.
+Further, it seems that generally, as n increases, the summary statistics derived from observation approach
+those predicted.  The package e1071, from \cite{e1071}, is used for the calculation of skewness and kurtosis.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (c)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood 
+  estimated distribution, and superimpose the true distribution in both.\\
+  \textbf{Solution:}
+  <<>>=
+x.10.50   <-data.frame(rbern(10, .5))
+x.10.75   <-data.frame(rbern(10, .75))
+@
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (d)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=25$ for your two sets of parameter(s). 
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood 
+  estimated distribution, and superimpose the true distribution in both.\\
+  \textbf{Solution:}
+    <<>>=
+x.25.50   <-data.frame(rbern(25, .5))
+x.25.75   <-data.frame(rbern(25, .75))
+@
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (e)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=100$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood
+  estimated distribution, and superimpose the true distribution in both.\\
+  \textbf{Solution:}
+    <<>>=
+x.100.50  <-data.frame(rbern(100, .5))
+x.100.75  <-data.frame(rbern(100, .75))
+@
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (f)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=1000$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood
+  estimated distribution, and superimpose the true distribution in both.\\
+  \textbf{Solution:}
+    <<>>=
+x.1000.50 <-data.frame(rbern(1000, .5))
+x.1000.75 <-data.frame(rbern(1000, .75))
+@
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (g)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Comment on the results of parts (c)-(f).\\
+  \textbf{Solution:}
+  
+\end{enumerate}
+\bibliography{bib}
 \end{document}
