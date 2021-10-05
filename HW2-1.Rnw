@@ -1,1 +1,423 @@
+\documentclass{article}
+\usepackage{amsmath} %This allows me to use the align functionality.
+                     %If you find yourself trying to replicate
+                     %something you found online, ensure you're
+                     %loading the necessary packages!
+\usepackage{amsfonts}%Math font
+\usepackage{graphicx}%For including graphics
+\usepackage{hyperref}%For Hyperlinks
+\hypersetup{colorlinks = true,citecolor=black}
+\usepackage{natbib}        %For the bibliography
+\bibliographystyle{apalike}%For the bibliography
+\usepackage[margin=1.0in]{geometry}
+\usepackage{float}
+\begin{document}
+\noindent \textbf{MA 354: Data Analysis -- Fall 2021 -- Due 10/8 at 5p}\\%\\ gives you a new line
+\noindent \textbf{Homework 2:}\vspace{1em}\\
+\emph{Complete the following opportunities to use what we've talked about in class. These questions will be graded for correctness, communication and succinctness. Ensure you show your work and explain your logic in a legible and refined submission.}\\\vspace{1em}
+%Comments -- anything after % is not put into the PDF
 
+The starting jobs will be applied in alphabetical order (last name) for question two.
+\begin{enumerate}
+  \item \textbf{Solver:} provide a solution, if possible, and reasoning for the solution. \textbf{Due to group 10/5 or earlier.}
+  \item \textbf{Code Checker:} provides a first check of the solver's worked solutions and ensures they are correct with a solid interpretation. 
+  \item \textbf{Checker} checks the solution for completeness, proposes and implements changes if agreed upon by the group. Provides a short paragraph summarizing the discussion of proposals and their reason for acceptance or non-acceptance.
+  \item \textbf{Double Checker} checks the solution for completeness, communication and polish. The Double Checker ensures that the solution is correct and highly polished for submission.
+\end{enumerate}
+
+\noindent For subsequent questions student roles will move down one position. The rolls change as follows.
+\begin{enumerate}
+  \item \textbf{Solver} $\Longrightarrow$ \textbf{Code Checker}
+  \item \textbf{Code Checker} $\Longrightarrow$ \textbf{Checker}
+  \item \textbf{Checker} $\Longrightarrow$ \textbf{Double Checker}
+  \item \textbf{Double Checker} $\Longrightarrow$ \textbf{Solver}
+\end{enumerate}
+While students have assigned jobs for each question I encourage students to help 
+each other complete the homework in collaboration.
+\newpage
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item\label{Q1} Select a continuous distribution (Not the uniform or exponential). 
+  It does not have to be one that we cover in the notes! To explore the PDF of your 
+  distribution, specify two sets of parameter(s) for your distribution.\\
+\textbf{Solution:} The Gaussian Distribution: Parameter sets: (mean=0, SD=1) and (mean=1, SD=2)\\
+  \begin{enumerate}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (a)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item \textbf{History} Discuss what types of random variables are modeled with 
+  your distribution. Be sure to include a discussion about the support and ensure 
+  to provide the density function, and CDF. This requires some internet research 
+  -- what's the history of the distribution, why was it created and named? What 
+  are some exciting applications of this distribution?
+  
+  Cite all of your sources in LaTeX by adding a BibTeX citation to the .bib file. 
+  To help, I've cited R \citep{R21} in parentheses here. \cite{R21} provides helpful 
+  tools for the rest of the questions below. BibTeX citations are available through 
+  Google Scholar by clicking the cite button below the article of  interest and 
+  selecting the BibTeX option. 
+  \\ 
+\textbf{Solution:} We chose to look at the Gaussian distribution for our continuous distribution. The Gaussian distribution is also known as the normal distribution and is very common in terms of independent, randomly generated variables. It is well known for the bell-shaped curve and is a very important probability graph in statistics. Its characterized by two parameters, the mean and standard deviation. Abraham DeMoivre derived formulas related to the curve early on in the 1600s; however, the name "Gaussian distribution" comes from Carl Friedrich Gauss, a German mathematician. He independently created a two-parameter exponential function in 1809 related to astronomical observation errors. James Clerk Maxwell, a British physicist, also had an early application of the normal distribution in 1859 with his law of distribution of molecular velocities. The "normal curve" formally appeared in 1870. 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (b)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Show that you have a valid PDF. You will find the \texttt{integrate()} 
+	function in \texttt{R} helpful. 
+	<<>>=
+x <- seq(-5,5,0.001)	
+all(dnorm(x) >= 0)   #all positive 
+integrate(dnorm, lower=-5, upper=5, subdivisions=10,000) #integral ~= 1
+	@
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (c)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Find the median for your two sets of parameter(s). Conduct some research 
+	to find the median based on our PDF to confirm that your numerical approach is 
+	correct. 
+<<>>= 
+points<-data.frame(x=seq(-5,5,0.001),
+                  f1=dnorm(x=seq(-5,5,0.001),mean=0,sd=1),
+                  f2=dnorm(x=seq(-5,5,0.001),mean=1,sd=2),
+                  f3=dnorm(x=seq(-5,5,0.001),mean=1,sd=1),
+                  f4=dnorm(x=seq(-5,5,0.001),mean=-1,sd=1),
+                  f5=dnorm(x=seq(-5,5,0.001),mean=0,sd=2))
+median(points$f1)
+median(points$f2)
+@
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (d)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item \label{q1PDF} Graph the PDF for several values of the parameter(s) 
+	including the two sets you specified. What does changing the parameter(s) do 
+	to the shape of the PDF?
+	<<>>=
+library(ggplot2)
+g1<-ggplot(data=points,aes(x=x))+
+  geom_line(aes(y=f1,color="m=0 sd=1"))+
+  geom_line(aes(y=f2,color="m=1 sd=2"))+
+  geom_line(aes(y=f3,color="m=1 sd=1"))+
+  geom_line(aes(y=f4,color="m=-1 sd=1"))+
+  geom_line(aes(y=f5,color="m=0 sd=2"))+
+  geom_hline(yintercept=0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Gaussian PDF",subtitle="For Various Parameter Values")+
+  scale_color_discrete("",breaks=c("m=0 sd=1","m=1 sd=2","m=1 sd=1",
+                                   "m=-1 sd=1","m=0 sd=2"),
+                       labels=c(bquote(mu==0~","~sigma==1),
+                                bquote(mu==1~","~sigma==2),bquote(mu==1~","~sigma==1),
+                                bquote(mu==-1~","~sigma==1),bquote(mu==0~","~sigma==2)))+
+  theme(legend.position="bottom",
+        legend.text = element_text(margin = margin(r = 15)))
+g1
+@
+\textbf{Solution:} Changing the mean of these curves affects where the peak (max) is along the x-axis. The standard deviation determines the actual height (max). The curves with standard deviations of 2 are smaller than those with standard deviation 1. 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (e)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 \item Graph the CDF for the same values of the parameter(s) as you did in 
+	 Question \ref{q1PDF}. What does changing the parameter(s) do to the shape of 
+	 the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.
+	 <<>>=
+points2<-data.frame(x=seq(-5,5,0.001),
+                    f1=pnorm(q=seq(-5,5,0.001),mean=0,sd=1),
+                    f2=pnorm(q=seq(-5,5,0.001),mean=1,sd=2),
+                    f3=pnorm(q=seq(-5,5,0.001),mean=1,sd=1),
+                    f4=pnorm(q=seq(-5,5,0.001),mean=-1,sd=1),
+                    f5=pnorm(q=seq(-5,5,0.001),mean=0,sd=2))
+g2<-ggplot(data=points2,aes(x=x))+
+  geom_line(aes(y=f1,color="m=0 sd=1"))+
+  geom_line(aes(y=f2,color="m=1 sd=2"))+
+  geom_line(aes(y=f3,color="m=1 sd=1"))+
+  geom_line(aes(y=f4,color="m=-1 sd=1"))+
+  geom_line(aes(y=f5,color="m=0 sd=2"))+
+  geom_hline(yintercept=0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Gaussian CDF",subtitle="For Various Parameter Values")+
+  scale_color_discrete("",breaks=c("m=0 sd=1","m=1 sd=2","m=1 sd=1",
+                                   "m=-1 sd=1","m=0 sd=2"),
+                       labels=c(bquote(mu==0~","~sigma==1),
+                                bquote(mu==1~","~sigma==2),bquote(mu==1~","~sigma==1),
+                                bquote(mu==-1~","~sigma==1),bquote(mu==0~","~sigma==2)))+
+  theme(legend.position="bottom",
+        legend.text = element_text(margin = margin(r = 15)))
+g2
+@
+\textbf{Solution:} Increasing the mean shifts the curves on the x-axis and where they end up when f(x) is 0.5. The standard deviation effects their path in terms of steepness. The curves with standard deviation 1 are steeper than the curves with standard deviation. Further, the validity of this CDF is shown as all values are positive and less than or equal to 1. 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (f)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+  two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram of each set
+  of data and superimpose the true density function at the specified parameter 
+  values. Interpret the results.
+<<>>= 
+library(patchwork)
+
+df <- data.frame(a = rnorm(10,mean=0, sd=1))
+p1a <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 10, mean=0, sd=1")
+
+
+df <- data.frame(a = rnorm(25,mean=0, sd=1))
+p1b <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 25, mean=0, sd=1")
+
+
+df <- data.frame(a = rnorm(100,mean=0, sd=1))
+p1c <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 100, mean=0, sd=1")
+
+df <- data.frame(a = rnorm(1000,mean=0, sd=1))
+p1d <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 1000, mean=0, sd=1")
+
+################ second parameter set ###
+df <- data.frame(a = rnorm(10, mean=1, sd=2))
+p2a <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 10, mean=1, sd=2")
+
+
+df <- data.frame(a = rnorm(25, mean=1, sd=2))
+p2b <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 25, mean=1, sd=2")
+
+
+df <- data.frame(a = rnorm(100, mean=1, sd=2))
+p2c <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 100, mean=1, sd=2")
+
+df <- data.frame(a = rnorm(1000, mean=1, sd=2))
+p2d <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.5), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 1000, mean=1, sd=2")
+(p1a + p2a) / (p1b + p2b) / (p1c + p2c) / (p1d + p2d)
+#	(p1a + p1b + p1c + p1d) / (p2a + p2b + p2c + p2d)
+@
+	\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Continue with the continuous distribution you selected for Question \ref{Q1}.
+\begin{enumerate}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (a)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Provide the mean, standard deviation, skewness, and kurtosis of the PDF.
+  Ensure to interpret each.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (b)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+  two sets of parameter(s). Calculate the sample mean, standard deviation, 
+  skewness, and kurtosis. Interpret the results.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (c)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+  of moments estimated distribution, (2) the maximum likelihood estimated 
+  distribution, and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (d)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=25$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+  of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
+  and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (e)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=100$ for your two sets of parameter(s). 
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+  of moments estimated distribution, (2) the maximum likelihood estimated distribution,
+  and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (f)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=100$ for your two sets of parameter(s). 
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+  In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+  of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
+  and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (g)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Comment on the results of parts (c)-(f). 
+\end{enumerate}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item\label{Q3} Select a discrete distribution (not the Poisson). It does not 
+  have to be one that we cover in the notes! To explore the PMF of your distribution, 
+  specify two sets of parameter(s) for your distribution.
+  \begin{enumerate}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (a)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item \textbf{History} Discuss what types of random variables are modeled with 
+  your distribution. Be sure to include a discussion about the support and ensure
+  to provide the mass function, and CDF. This requires some internet research -- 
+  what's the history of the distribution, why was it created and named? What are
+  some exciting applications of this distribution? Cite all of your sources.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (b)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Show that you have a valid PMF. You can show this approximately by 
+	calculating the series in a repeat loop until probability mass evaluations are 
+	infinitesimally small.
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (c)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item Find the median for your two sets of parameter(s). Conduct some research 
+	to find the median based on our PMF to confirm that your numerical approach is
+	correct. 
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (d)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	\item \label{q3PMF} Graph the PMF for several values of the parameter(s) 
+	including the two sets you specified. What does changing the parameter(s) do 
+	to the shape of the PMF?
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (e)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	 \item Graph the CDF for the same values of the parameter(s) as you did in 
+	 Question \ref{q3PMF}. What does changing the parameter(s) do to the shape of 
+	 the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (f)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+  two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram (with bin 
+  size 1) of each set of data and superimpose the true mass function at the 
+  specified parameter values. Interpret the results.
+	\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Continue with the discrete distribution you selected for Question \ref{Q3}.
+\begin{enumerate}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (a)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Provide the mean, standard deviation, skewness, and kurtosis of the PMF. 
+  Ensure to interpret each.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (b)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+  two sets of parameter(s). Calculate the sample mean, standard deviation, 
+  skewness, and kurtosis. Interpret the results.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (c)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=10$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood 
+  estimated distribution, and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (d)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=25$ for your two sets of parameter(s). 
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood 
+  estimated distribution, and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (e)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=100$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood
+  estimated distribution, and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (f)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Generate a random sample of size $n=100$ for your two sets of parameter(s).
+  Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+  In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+  with (1) the method of moments estimated distribution, (2) the maximum likelihood
+  estimated distribution, and superimpose the true distribution in both.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%  Part (g)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \item Comment on the results of parts (c)-(f). 
+\end{enumerate}
+\end{enumerate}%End overall enumerate
+\newpage
+\bibliography{bib}
+\end{document}
