@@ -349,7 +349,7 @@ g8<-ggplot(NULL) +                                      #left NULL so that we ca
 <<>>=
 (g1 + g5) / (g2 + g6) / (g3 + g7) / (g4 + g8)
 @
-\caption{Bernoulli Distributionsfor randomly generated samples, with varied n and p.  The red lines prepresent the PMF, while the histograms show the observed counts.}
+\caption{Bernoulli Distributions for randomly generated samples, with varied n and p.  The red lines prepresent the PMF, while the histograms show the observed counts.}
 \label{BernRand}
 \end{figure}
   The greater the size of our random samples, the closer, generally, the spread of the observations we make are to the number we would predict from the PMF.  We can see this in that the heights of the grey histogram bars seem to get closer to the red lines that represent the PMF's prediction.
