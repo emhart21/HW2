@@ -37,7 +37,7 @@ $$
 (Sinharay, 132).  We could similarly write this using the floor operator and indicator function as:
 $$F_X(x|p) = [(1-p)I(\lfloor x \rfloor = 0)]+I(\lfloor x \rfloor \geq 1)
 $$
-(Cipolli, 173). The Bernoulli distribution, created by Jakob Bernoulli, is often used to in the context of flipping coins(Sinharay, 132).  A fair coin would be represented by a Bernoulli distribution with both $p$ and $q$ equal to 0.5 (while any other parameter values would represent an unfair coin flip).  I will investigate when the parameters p=0.5, q=0.5 and p=0.7,q=0.3.
+(Cipolli, 173). The Bernoulli distribution, created by Jakob Bernoulli, is often used to in the context of flipping coins because it takes one of two values (Sinharay, 132).  Another area of application is in dealing with the probabilities of wins and losses (or any binary outcome kind of system).  A fair coin would be represented by a Bernoulli distribution with both $p$ and $q$ equal to 0.5 (while any other parameter values would represent an unfair coin flip).  I will investigate when the parameters p=0.5, q=0.5 and p=0.7,q=0.3.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (b)

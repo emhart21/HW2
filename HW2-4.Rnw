@@ -119,7 +119,7 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood 
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
-  Note that for the Bernoulli Distribution, the methods of moments estimation is quite simplified.  Because only the values of 0 and 1 are included in the support, and because each power of both 1 and 0 are equal to 1 and 0 ($1^k=1$ and $0^k=0$ for all k), each moment is equal to the original mean of the data.  Therefore, the function we would minimize for our estimation would be the parameter p minus the mean of the data, which we can solve easily by setting p equal to the mean of the data.  In each case, the method of moments estimator will be able to perfectly represent the randomly generated set of data.
+  Note that for the Bernoulli Distribution, the methods of moments estimation is quite simplified.  Because only the values of 0 and 1 are included in the support, and because each power of both 1 and 0 are equal to 1 and 0 ($1^k=1$ and $0^k=0$ for all k), each moment is equal to the original mean of the data.  Therefore, the function we would minimize for our estimation would be the parameter p minus the mean of the data, which we can solve easily by setting p equal to the mean of the data.  In each case, the method of moments estimator will be able to perfectly represent the randomly generated set of data.  With the MLE, similarly, the method can always exactly find a parameter to match the distribution because the support can take only two values and an exact solution can always be found.
   The below code is used to set up functions for the Bernoulli Distribution.
   <<>>=
 library("tidyverse")
@@ -197,7 +197,7 @@ g1<-ggplot(NULL) +                                      #left NULL so that we ca
 #######################################################
 lbern.ll<-function(par, data, neg=T){
   p <- par[1]
-  ll <- sum(dbern(x=data, p))
+  ll <- sum(log(dbern(x=data, p)))
   ifelse(neg, -ll, ll)
 }
 mle <- optim(method = 'Brent',
