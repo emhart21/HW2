@@ -86,6 +86,7 @@ points<-data.frame(x=seq(-5,5,0.001),
                   f5=dnorm(x=seq(-5,5,0.001),mean=0,sd=2))
 median(points$f1)
 median(points$f2)
+#since this is a normal distribution the median and mean should be approximately equal 
 @
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (d)
