@@ -163,7 +163,7 @@ library(patchwork)
 df <- data.frame(a = rnorm(10,mean=0, sd=1))
 p1a <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-5, 5, by = 0.5), 
+                 breaks = seq(-5, 5, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f1), color="red")+
@@ -175,7 +175,7 @@ p1a <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(25,mean=0, sd=1))
 p1b <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-5, 5, by = 0.5), 
+                 breaks = seq(-5, 5, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f1), color="red")+
@@ -187,7 +187,7 @@ p1b <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(100,mean=0, sd=1))
 p1c <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-5, 5, by = 0.5), 
+                 breaks = seq(-5, 5, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f1), color="red")+
@@ -198,7 +198,7 @@ p1c <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(1000,mean=0, sd=1))
 p1d <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-5, 5, by = 0.5), 
+                 breaks = seq(-5, 5, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f1), color="red")+
@@ -210,7 +210,7 @@ p1d <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(10, mean=1, sd=2))
 p2a <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-4, 6, by = 0.5), 
+                 breaks = seq(-4, 6, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f2), color="blue")+
@@ -222,7 +222,7 @@ p2a <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(25, mean=1, sd=2))
 p2b <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-4, 6, by = 0.5), 
+                 breaks = seq(-4, 6, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f2), color="blue")+
@@ -234,7 +234,7 @@ p2b <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(100, mean=1, sd=2))
 p2c <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-4, 6, by = 0.5), 
+                 breaks = seq(-4, 6, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f2), color="blue")+
@@ -245,7 +245,7 @@ p2c <- ggplot(df, aes(x = a)) +
 df <- data.frame(a = rnorm(1000, mean=1, sd=2))
 p2d <- ggplot(df, aes(x = a)) + 
   geom_histogram(aes(y =..density..),
-                 breaks = seq(-4, 6, by = 0.5), 
+                 breaks = seq(-4, 6, by = 0.25), 
                  colour = "black", 
                  fill = "white") +
   geom_line(data = points, aes(x=x, y=f2), color="blue")+
