@@ -1,17 +1,855 @@
 \documentclass{article}
-\usepackage{amsmath} 
-\usepackage{amsfonts}
-\usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{amsmath} %This allows me to use the align functionality.
+%If you find yourself trying to replicate
+%something you found online, ensure you're
+%loading the necessary packages!
+\usepackage{amsfonts}%Math font
+\usepackage{graphicx}%For including graphics
+\usepackage{hyperref}%For Hyperlinks
 \hypersetup{colorlinks = true,citecolor=black}
-\usepackage{natbib}
-\bibliographystyle{apalike}
+\usepackage{natbib}        %For the bibliography
+\bibliographystyle{apalike}%For the bibliography
 \usepackage[margin=1.0in]{geometry}
 \usepackage{float}
-
 \begin{document}
+\noindent \textbf{MA 354: Data Analysis -- Fall 2021 -- Due 10/8 at 5p}\\%\\ gives you a new line
+\noindent \textbf{Homework 2:}\vspace{1em}\\
+\emph{Complete the following opportunities to use what we've talked about in class. These questions will be graded for correctness, communication and succinctness. Ensure you show your work and explain your logic in a legible and refined submission.}\\\vspace{1em}
+%Comments -- anything after % is not put into the PDF
+
+The starting jobs will be applied in alphabetical order (last name) for question two.
+\begin{enumerate}
+\item \textbf{Solver:} provide a solution, if possible, and reasoning for the solution. \textbf{Due to group 10/5 or earlier.}
+\item \textbf{Code Checker:} provides a first check of the solver's worked solutions and ensures they are correct with a solid interpretation. 
+\item \textbf{Checker} checks the solution for completeness, proposes and implements changes if agreed upon by the group. Provides a short paragraph summarizing the discussion of proposals and their reason for acceptance or non-acceptance.
+\item \textbf{Double Checker} checks the solution for completeness, communication and polish. The Double Checker ensures that the solution is correct and highly polished for submission.
+\end{enumerate}
+
+\noindent For subsequent questions student roles will move down one position. The rolls change as follows.
+\begin{enumerate}
+\item \textbf{Solver} $\Longrightarrow$ \textbf{Code Checker}
+\item \textbf{Code Checker} $\Longrightarrow$ \textbf{Checker}
+\item \textbf{Checker} $\Longrightarrow$ \textbf{Double Checker}
+\item \textbf{Double Checker} $\Longrightarrow$ \textbf{Solver}
+\end{enumerate}
+While students have assigned jobs for each question I encourage students to help 
+each other complete the homework in collaboration.
+\newpage
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item\label{Q1} Select a continuous distribution (Not the uniform or exponential). 
+It does not have to be one that we cover in the notes! To explore the PDF of your 
+distribution, specify two sets of parameter(s) for your distribution.
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (a)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \textbf{History} Discuss what types of random variables are modeled with 
+your distribution. Be sure to include a discussion about the support and ensure 
+to provide the density function, and CDF. This requires some internet research 
+-- what's the history of the distribution, why was it created and named? What 
+are some exciting applications of this distribution?
+
+Cite all of your sources in LaTeX by adding a BibTeX citation to the .bib file. 
+To help, I've cited R \citep{R21} in parentheses here. \cite{R21} provides helpful 
+tools for the rest of the questions below. BibTeX citations are available through 
+Google Scholar by clicking the cite button below the article of  interest and 
+selecting the BibTeX option.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (b)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Show that you have a valid PDF. You will find the \texttt{integrate()} 
+function in \texttt{R} helpful.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (c)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Find the median for your two sets of parameter(s). Conduct some research 
+to find the median based on our PDF to confirm that your numerical approach is 
+correct. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (d)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \label{q1PDF} Graph the PDF for several values of the parameter(s) 
+including the two sets you specified. What does changing the parameter(s) do 
+to the shape of the PDF?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (e)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Graph the CDF for the same values of the parameter(s) as you did in 
+Question \ref{q1PDF}. What does changing the parameter(s) do to the shape of 
+the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (f)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram of each set
+of data and superimpose the true density function at the specified parameter 
+values. Interpret the results.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Continue with the continuous distribution you selected for Question \ref{Q1}.
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (a)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Provide the mean, standard deviation, skewness, and kurtosis of the PDF.
+Ensure to interpret each.
+
+<<>>=
+#function that returns mean, SD, skew, and kurtosis for Gaussian PDF 
+norm.summary <- function(mu,sigma){
+  norm.mean <- mu         #expected value E(x)
+  norm.sd   <- sigma    #var(x)
+  norm.skew <- 0          #skew(x)
+  norm.kurt <- 0          #kurt(x)
+  norm.stats <- data.frame(mean=norm.mean, SD=norm.sd, skewness=norm.skew, kurtosis=norm.kurt)
+  return(norm.stats)
+}
+
+#input the parameters we are using 
+norm.summary(0,1)
+norm.summary(1,2)
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (b)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+two sets of parameter(s). Calculate the sample mean, standard deviation, 
+skewness, and kurtosis. Interpret the results.
+
+<<message=FALSE, warning=FALSE>>=
+#generate random samples with mu = 0, sigma = 1
+n10.m0.sd1 <- rnorm(10, 0, 1) #n = 10
+n25.m0.sd1 <- rnorm(25, 0, 1) #n = 25
+n100.m0.sd1 <- rnorm(100, 0, 1) #n = 100
+n1000.m0.sd1 <- rnorm(1000, 0, 1) #n = 1000
+
+#generate random samples with mu = 0, sigma = 1
+n10.m1.sd2 <- rnorm(10, 1, 2) #n = 10
+n25.m1.sd2 <- rnorm(25, 1, 2) #n = 25
+n100.m1.sd2 <- rnorm(100, 1, 2) #n = 100
+n1000.m1.sd2 <- rnorm(1000, 1, 2) #n = 1000
+
+library(tidyverse)
+library(e1071)
+
+#summarize first distribution with n = 10
+data.frame(mean = mean(n10.m0.sd1),
+sd = sd(n10.m0.sd1),
+skew = skewness(n10.m0.sd1),
+kurt = kurtosis(n10.m0.sd1))
+@
+These numbers are pretty far off the expected values indicated above. A sample size of 10 is not enough to generate an accurate distribution. 
+<<>>=
+#summarize first distribution with n = 25
+data.frame(mean = mean(n25.m0.sd1),
+sd = sd(n25.m0.sd1),
+skew = skewness(n25.m0.sd1),
+kurt = kurtosis(n25.m0.sd1))
+@
+These results are still not equal to the true values, but are closer than the sample with n = 10 which makes sense because the sample is more than twice as large. 
+<<>>=
+#summarize first distribution with n = 100
+data.frame(mean = mean(n100.m0.sd1),
+sd = sd(n100.m0.sd1),
+skew = skewness(n100.m0.sd1),
+kurt = kurtosis(n100.m0.sd1))
+@
+These results are still not equal to the true values, and the mean appears to be farther away than the estimates mean for n = 25. 
+<<>>=
+#summarize first distribution with n = 1000
+data.frame(mean = mean(n1000.m0.sd1),
+sd = sd(n1000.m0.sd1),
+skew = skewness(n1000.m0.sd1),
+kurt = kurtosis(n1000.m0.sd1))
+@
+Although these are still not equal to the true values, the larger sample size of n = 1000 is the closest estimation presented here. 
+<<>>=
+#summarize second distribution with n = 10
+data.frame(mean = mean(n10.m1.sd2),
+sd = sd(n10.m1.sd2),
+skew = skewness(n10.m1.sd2),
+kurt = kurtosis(n10.m1.sd2))
+@
+The mean in this sample is very close to the true mean of 1, but the standard devaition is very far off. This is due to small sample size. 
+<<>>=
+#summarize second distribution with n = 25
+data.frame(mean = mean(n25.m1.sd2),
+sd = sd(n25.m1.sd2),
+skew = skewness(n25.m1.sd2),
+kurt = kurtosis(n25.m1.sd2))
+@
+In this sample the standard deviation is closer to the true value, but the mean is underestimated. Again, due to small sample size. 
+<<>>=
+#summarize second distribution with n = 100
+data.frame(mean = mean(n100.m1.sd2),
+sd = sd(n100.m1.sd2),
+skew = skewness(n100.m1.sd2),
+kurt = kurtosis(n100.m1.sd2))
+@
+With n = 100 the estimated mean and standard deviation are much closer to their true values.
+<<>>=
+#summarize second distribution with n = 1000
+data.frame(mean = mean(n1000.m1.sd2),
+sd = sd(n1000.m1.sd2),
+skew = skewness(n1000.m1.sd2),
+skurt = kurtosis(n1000.m1.sd2)) 
+@
+These are the closest to the estimated values because of the larger sample size. \\
+\\
+Overall, as sample size increases the sample statistics approach the distribution parameters. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (c)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated 
+distribution, and superimpose the true distribution in both.
+\\
+Plots are created using \cite{gridExtra}
+
+<<message=FALSE, warning=FALSE>>=
+#################################### FUNCTIONS #################################
+#functions adapted from class 
+#MOM function 
+norm.mom <- function(par,data){  
+  mu <- par[1]
+  sigma <- par[2]
+  
+  EX1 <- mu #expected values
+  EX2 <- mu^2 + sigma^2
+  
+  xbar1 <- mean(data) #sample values 
+  xbar2 <- mean(data^2)
+  
+  c(EX1-xbar1, EX2-xbar2) #finds difference
+}
+#MLE function 
+norm.ll<-function(par, data, neg=T){ 
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
+  ifelse(neg, -ll, ll)
+}
+
+#load libraries
+library(ggplot2)
+library(gridExtra)
+library(lemon)
+library(nleqslv)
+
+#################################### n = 10, par 1 ############################
+#MOM: n = 10
+mom.m0.sd1 <- nleqslv(x = c(0,1), 
+                      fn = norm.mom,
+                      data = n10.m0.sd1)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #sets x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom distribution 
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n10.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist 
+                        F2 = dnorm(seq(-6,6,0.001), #mle distribution 
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
 
 
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 10")) 
+
+#################################### n = 10, par 2 ############################
+#MOM: n = 10
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n10.m1.sd2)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n10.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001),  #mle dist
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
 
 
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 10")) 
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (d)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=25$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
+and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 25, par 1 ############################
+#MOM: n = 10
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n25.m0.sd1)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis 
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n25.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 25")) 
+
+#################################### n = 25, par 2 ############################
+#MOM: n = 10
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n25.m1.sd2)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis 
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n25.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 25")) 
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (e)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=100$ for your two sets of parameter(s). 
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated distribution,
+and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 100, par 1 ###########################
+#MOM: n = 10
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n100.m0.sd1)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#MLE: n = 10
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n100.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 100")) 
+
+#################################### n = 100, par 2 ###########################
+#MOM: n = 10
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n100.m1.sd2)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n100.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 100")) 
+@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (f)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=1000$ for your two sets of parameter(s). 
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
+of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
+and superimpose the true distribution in both.
+
+<<message=FALSE, warning=FALSE>>=
+#################################### n = 1000, par 1 ##########################
+#MOM: n = 10
+mom.m0.sd1 <- nleqslv(x = c(0,1),
+                      fn = norm.mom,
+                      data = n1000.m0.sd1)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m0.sd1$x[1], 
+                                   sd = mom.m0.sd1$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m0.sd1 <- optim(par = c(0,1),
+                    fn = norm.ll,
+                    data=n1000.m0.sd1)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+                                   mean = mle.m0.sd1$par[1], 
+                                   sd = mle.m0.sd1$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=0, sd=1"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 1000")) 
+
+#################################### n = 1000, par 2 ##########################
+#MOM: n = 10
+mom.m1.sd2 <- nleqslv(x = c(1,2),
+                      fn = norm.mom,
+                      data = n1000.m1.sd2)
+
+#create MOM plot: n = 10
+ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+                                   mean = mom.m1.sd2$x[1], 
+                                   sd = mom.m1.sd2$x[2]))
+#plot
+p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MOM Estimated Distribution")+ 
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#MLE: n = 10
+mle.m1.sd2 <- optim(par = c(1,2),
+                    fn = norm.ll,
+                    data=n1000.m1.sd2)
+
+#create MLE plot: n = 10
+ggdat.mle <- data.frame(x = seq(-6,6,0.001), # x axis
+                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+                                   mean = mle.m1.sd2$par[1], 
+                                   sd = mle.m1.sd2$par[1]))
+#plot
+p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
+  geom_histogram(stat='identity')+
+  geom_line(aes(y = F1,color = "m=1, sd=2"))+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("MLE Distribution")+
+  scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
+  theme(legend.position = "bottom",
+        legend.text = element_text(margin = margin(r = 15))) +
+  theme(legend.title = element_blank())
+
+#combine plots
+grid.arrange(arrangeGrob(p1.mom,
+                         p1.mle,
+                         nrow = 1,
+                         top = "Gaussian PDF with n = 1000")) 
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (g)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Comment on the results of parts (c)-(f). \\
+As expected, as n increases the estimated distributions become more similar to the true distributions. In general the Method of Moments estimations align better with the true distribution. The MLE solutions often have a similar mean to the true distribution, but the standard devaition is very different. 
+\end{enumerate}
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item\label{Q3} Select a discrete distribution (not the Poisson). It does not 
+have to be one that we cover in the notes! To explore the PMF of your distribution, 
+specify two sets of parameter(s) for your distribution.
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (a)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \textbf{History} Discuss what types of random variables are modeled with 
+your distribution. Be sure to include a discussion about the support and ensure
+to provide the mass function, and CDF. This requires some internet research -- 
+what's the history of the distribution, why was it created and named? What are
+some exciting applications of this distribution? Cite all of your sources.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (b)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Show that you have a valid PMF. You can show this approximately by 
+calculating the series in a repeat loop until probability mass evaluations are 
+infinitesimally small.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (c)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Find the median for your two sets of parameter(s). Conduct some research 
+to find the median based on our PMF to confirm that your numerical approach is
+correct. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (d)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item \label{q3PMF} Graph the PMF for several values of the parameter(s) 
+including the two sets you specified. What does changing the parameter(s) do 
+to the shape of the PMF?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (e)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Graph the CDF for the same values of the parameter(s) as you did in 
+Question \ref{q3PMF}. What does changing the parameter(s) do to the shape of 
+the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (f)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram (with bin 
+size 1) of each set of data and superimpose the true mass function at the 
+specified parameter values. Interpret the results.
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Question 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Continue with the discrete distribution you selected for Question \ref{Q3}.
+\begin{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (a)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Provide the mean, standard deviation, skewness, and kurtosis of the PMF. 
+Ensure to interpret each.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (b)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
+two sets of parameter(s). Calculate the sample mean, standard deviation, 
+skewness, and kurtosis. Interpret the results.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (c)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=10$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+with (1) the method of moments estimated distribution, (2) the maximum likelihood 
+estimated distribution, and superimpose the true distribution in both.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (d)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=25$ for your two sets of parameter(s). 
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+with (1) the method of moments estimated distribution, (2) the maximum likelihood 
+estimated distribution, and superimpose the true distribution in both.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (e)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=100$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
+In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+with (1) the method of moments estimated distribution, (2) the maximum likelihood
+estimated distribution, and superimpose the true distribution in both.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (f)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Generate a random sample of size $n=100$ for your two sets of parameter(s).
+Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
+In a $1 \times 2$ grid, plot a histogram (with bin size 1) of each set of data 
+with (1) the method of moments estimated distribution, (2) the maximum likelihood
+estimated distribution, and superimpose the true distribution in both.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%  Part (g)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\item Comment on the results of parts (c)-(f). 
+\end{enumerate}
+\end{enumerate}%End overall enumerate
 \end{document}
