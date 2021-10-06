@@ -120,6 +120,7 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
   Note that for the Bernoulli Distribution, the methods of moments estimation is quite simplified.  Because only the values of 0 and 1 are included in the support, and because each power of both 1 and 0 are equal to 1 and 0 ($1^k=1$ and $0^k=0$ for all k), each moment is equal to the original mean of the data.  Therefore, the function we would minimize for our estimation would be the parameter p minus the mean of the data, which we can solve easily by setting p equal to the mean of the data.  In each case, the method of moments estimator will be able to perfectly represent the randomly generated set of data.
+  The below code is used to set up functions for the Bernoulli Distribution.
   <<>>=
 library("tidyverse")
 library("ggplot2")
@@ -152,7 +153,9 @@ pbern<-function(q, prob){
   Fx <- (1-prob) * indicator1 + indicator2
   return(Fx)
 }
-
+@
+The below code is used to create our plots for the MOM and ML estimated distributions.
+<<>>=
 x.10.50   <- data.frame(xs=rbern(10, .5))
 
 ###############################################
@@ -251,7 +254,6 @@ x.25.75   <-data.frame(rbern(25, .75))
     <<>>=
 x.100.50  <-data.frame(rbern(100, .5))
 x.100.75  <-data.frame(rbern(100, .75))
-
 @
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
