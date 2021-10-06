@@ -235,10 +235,10 @@ norm.mom <- function(par,data){
   c(EX1-xbar1, EX2-xbar2) #finds difference
 }
 #MLE function 
-norm.ll<-function(par, data, neg=T){ 
+norm.ll<-function(par, data, neg=T){
   mu <- par[1]
   sigma <- par[2]
-  ll <- sum(dlnorm(x=data, meanlog=mu, sdlog=sigma, log=T))
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma, log = TRUE))
   ifelse(neg, -ll, ll)
 }
 
@@ -744,7 +744,7 @@ grid.arrange(arrangeGrob(p1.mom,
 %%%%%%%%%  Part (g)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Comment on the results of parts (c)-(f). \\
-As expected, as n increases the estimated distributions become more similar to the true distributions. In general the Method of Moments estimations align better with the true distribution. The MLE solutions often have a similar mean to the true distribution, but the standard devaition is very different. 
+As expected, as n increases the estimated distributions become more similar to the true distributions. The MOM and MLE estimators seem to be comparable estimators, and usually come up with very similar results depending on the random sample. 
 \end{enumerate}
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
