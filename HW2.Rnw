@@ -112,10 +112,12 @@ library(tidyverse)
 library(e1071)
 
 #summarize first distribution 
-c(mean(n10.m0.sd1),
+x <- data.frame(c(mean(n10.m0.sd1),
 sd(n10.m0.sd1),
 skewness(n10.m0.sd1),
-kurtosis(n10.m0.sd1))
+kurtosis(n10.m0.sd1)))
+rownames(x) <- c("mean","SD","skew","kurtosis")
+x
 
 c(mean(n25.m0.sd1),
 sd(n25.m0.sd1),
@@ -132,7 +134,7 @@ sd(n1000.m0.sd1),
 skewness(n1000.m0.sd1),
 kurtosis(n1000.m0.sd1))
 
-#sumarize second distribution 
+#summarize second distribution 
 c(mean(n10.m1.sd2),
 sd(n10.m1.sd2),
 skewness(n10.m1.sd2),
