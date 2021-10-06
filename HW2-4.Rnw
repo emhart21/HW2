@@ -29,56 +29,7 @@ Continue with the discrete distribution you selected for Question 3.
   Ensure to interpret each.\\
   \textbf{Solution:}
   <<>>=
-  rbern<-function(n,p){
-  support<-c(0,1)
-  x<-sample(x=support, size=n, replace=TRUE, prob=dbern(support, p=p))
-  return(x)
-  }
-  library("tidyverse")
-library("ggplot2")
-library("patchwork")
-	
-#############################################################
-###Bernoulli Distribution ###################################
-#############################################################
-dbern<-function(x,prob){                #DEFINING THE PMF
-  if(prob<0 | prob>1){
-    errormsg <- "This function is only valid for success probabilities between 0 and 1."
-    stop(errormsg)
-  }
-  indicator <- rep(0, length(x))
-  indicator[x==0] <- 1 # indicator should be one if x=0
-  indicator[x==1] <- 1 # indicator should be one if x=1
-  fx <- (prob^x * (1-prob)^(1-x)) * indicator # PMF formula
-  return(fx)
-}
 
-pbern<-function(q, prob){              
-  if(prob<0 | prob>1){
-    errormsg<-"This function is only valid for success probabilities between 0 and 1."
-    stop(errormsg)
-  }
-  indicator1 <- rep(1, length(q))
-  indicator1[q != 0] <- 0 #indicator should be zero if x!=0
-  indicator2 <- rep(1, length(q))
-  indicator2[q < 1] <- 0 #indicator should be zero if x<1
-  Fx <- (1-prob) * indicator1 + indicator2
-  return(Fx)
-}
-qbern <- function(p, prob){
-  if(prob<0 | prob>1){
-    errormsg<-"This function is only valid for success probabilities between 0 and 1."
-    stop(errormsg)
-  }
-  if(any(p<0) | any(p>1)){
-    errormsg<-"This function is only valid for percentiles between 0 and 1."
-    stop(errormsg)
-  }
-  q <- rep(1, length(p))
-  q[p <= 1-prob] <- 0 # should return zero if p<=(1-prob)
-  q[p > 1-prob] <- 1  # should return one if p>(1-prob)
-  return(q)
-}
 bern.summ <- function(p){
   bern.mean <- p                     #mean = expected value = p
   bern.sd   <- sqrt(p*(1-p))         #sqrt of variance
@@ -110,6 +61,16 @@ the skewness is -1.15. The kurtosis is -0.67, again representing a platykurtic d
   \textbf{Solution:}
     <<>>=
 library(e1071)
+library("tidyverse")
+library("ggplot2")
+library("patchwork")
+	
+rbern<-function(n,p){
+  support<-c(0,1)
+  x<-sample(x=support, size=n, replace=TRUE, prob=dbern(support, p=p))
+  return(x)
+}
+
 bern.rand.summ <- function(n,p){
   obs<-rbern(n, p)
   bern.mean <- mean(obs)
@@ -158,8 +119,111 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood 
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
+  Note that for the Bernoulli Distribution, the methods of moments estimation is quite simplified.  Because only the values of 0 and 1 are included in the support, and because each power of both 1 and 0 are equal to 1 and 0 ($1^k=1$ and $0^k=0$ for all k), each moment is equal to the original mean of the data.  Therefore, the function we would minimize for our estimation would be the parameter p minus the mean of the data, which we can solve easily by setting p equal to the mean of the data.  In each case, the method of moments estimator will be able to perfectly represent the randomly generated set of data.
   <<>>=
-x.10.50   <-data.frame(rbern(10, .5))
+library("tidyverse")
+library("ggplot2")
+library("patchwork")
+
+#############################################################
+###Bernoulli Distribution ###################################
+#############################################################
+dbern<-function(x,prob){                #DEFINING THE PMF
+  if(prob<0 | prob>1){
+    errormsg <- "This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  indicator <- rep(0, length(x))
+  indicator[x==0] <- 1 # indicator should be one if x=0
+  indicator[x==1] <- 1 # indicator should be one if x=1
+  fx <- (prob^x * (1-prob)^(1-x)) * indicator # PMF formula
+  return(fx)
+}
+
+pbern<-function(q, prob){              
+  if(prob<0 | prob>1){
+    errormsg<-"This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  indicator1 <- rep(1, length(q))
+  indicator1[q != 0] <- 0 #indicator should be zero if x!=0
+  indicator2 <- rep(1, length(q))
+  indicator2[q < 1] <- 0 #indicator should be zero if x<1
+  Fx <- (1-prob) * indicator1 + indicator2
+  return(Fx)
+}
+
+x.10.50   <- data.frame(xs=rbern(10, .5))
+
+###############################################
+## MOM
+###############################################
+
+## AS EXPLAINED ABOVE
+# bern.mom <- function(par,data){
+#   p <- par[1]
+#   EX1 <- p
+#   xbar <- mean(data)
+#   return(EX1-xbar)  
+#   # minimizing this is identical to making the p = mean of the data
+# }
+
+mom.p     <- mean(x.10.50$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g1<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.10.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.5 and n=10") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(dbern(x=data, p))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.10.50$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g2<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+  geom_histogram(data=x.10.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.5 and n=10") +          #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 color="red")                           #Makes PMF red
+g1 + g2
+
 x.10.75   <-data.frame(rbern(10, .75))
 @
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,6 +251,7 @@ x.25.75   <-data.frame(rbern(25, .75))
     <<>>=
 x.100.50  <-data.frame(rbern(100, .5))
 x.100.75  <-data.frame(rbern(100, .75))
+
 @
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
