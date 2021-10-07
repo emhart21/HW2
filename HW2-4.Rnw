@@ -59,7 +59,7 @@ the skewness is -1.15. The kurtosis is -0.67, again representing a platykurtic d
   two sets of parameter(s). Calculate the sample mean, standard deviation, 
   skewness, and kurtosis. Interpret the results.\\
   \textbf{Solution:}
-    <<>>=
+    <<warning=FALSE,message=FALSE>>=
 library(e1071)
 library("tidyverse")
 library("ggplot2")
@@ -416,7 +416,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mle.p))
 
-g4<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g4<-ggplot(NULL) +                                      
   geom_histogram(data=x.25.75,                          #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -424,10 +424,10 @@ g4<-ggplot(NULL) +                                      #left NULL so that we ca
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
   ggtitle("True and ML Estimated"
-          ,subtitle = "With p=0.75 and n=25") +          #add title to plot
+          ,subtitle = "With p=0.75 and n=25") +         #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
 @
 \begin{figure}
@@ -461,7 +461,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mom.p))
 
-g1<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g1<-ggplot(NULL) +                                      
   geom_histogram(data=x.100.50,                          #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -472,7 +472,7 @@ g1<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.5 and n=100") +           #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF 
                  color="red")                           #Makes PMF red
 
 #######################################################
@@ -496,7 +496,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mle.p))
 
-g2<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g2<-ggplot(NULL) +                                      
   geom_histogram(data=x.100.50,                          #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -507,7 +507,7 @@ g2<-ggplot(NULL) +                                      #left NULL so that we ca
           ,subtitle = "With p=0.5 and n=100") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
 @
 
@@ -522,18 +522,18 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mom.p))
 
-g3<-ggplot(NULL) +                                      #left NULL so that we can superimpose
-  geom_histogram(data=x.100.75,                          #uses random sample
+g3<-ggplot(NULL) +                                      
+  geom_histogram(data=x.100.75,                         #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
                  fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
   ggtitle("True and MOM Estimated",
-          subtitle = "With p=0.75 and n=100") +           #add title to plot
+          subtitle = "With p=0.75 and n=100") +         #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF
                  color="red")                           #Makes PMF red
 
 #######################################################
@@ -557,7 +557,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mle.p))
 
-g4<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g4<-ggplot(NULL) +                                      
   geom_histogram(data=x.100.75,                          #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -568,7 +568,7 @@ g4<-ggplot(NULL) +                                      #left NULL so that we ca
           ,subtitle = "With p=0.75 and n=100") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
 @
 \begin{figure}
@@ -611,7 +611,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mom.p))
 
-g1<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g1<-ggplot(NULL) +                                      
   geom_histogram(data=x.1000.50,                          #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -622,7 +622,7 @@ g1<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.5 and n=1000") +           #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=1000*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=1000*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
 
 #######################################################
@@ -646,18 +646,18 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mle.p))
 
-g2<-ggplot(NULL) +                                      #left NULL so that we can superimpose
-  geom_histogram(data=x.1000.50,                          #uses random sample
+g2<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.50,                        #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
                  fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
   ggtitle("True and ML Estimated"
-          ,subtitle = "With p=0.5 and n=1000") +          #add title to plot
+          ,subtitle = "With p=0.5 and n=1000") +        #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=1000*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
                  color="red")                           #Makes PMF red
 @
 
@@ -672,18 +672,18 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mom.p))
 
-g3<-ggplot(NULL) +                                      #left NULL so that we can superimpose
-  geom_histogram(data=x.1000.75,                          #uses random sample
+g3<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.75,                        #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
                  fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
   ggtitle("True and MOM Estimated",
-          subtitle = "With p=0.75 and n=1000") +           #add title to plot
+          subtitle = "With p=0.75 and n=1000") +        #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=1000*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
                  color="red")                           #Makes PMF red
 
 #######################################################
@@ -707,18 +707,18 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
                       F = pbern(q = (-1:2), prob = mle.p))
 
-g4<-ggplot(NULL) +                                      #left NULL so that we can superimpose
-  geom_histogram(data=x.1000.75,                          #uses random sample
+g4<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.75,                        #uses random sample
                  aes(x=xs),                             #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
                  fill = "lightgrey", color="black") +   #color the histogram
   xlab("X") +                                           #x axis label
   ylab("Frequency")+                                    #y axis label
   ggtitle("True and ML Estimated"
-          ,subtitle = "With p=0.75 and n=1000") +          #add title to plot
+          ,subtitle = "With p=0.75 and n=1000") +       #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=1000*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
                  color="red")                           #Makes PMF red
 @
 \begin{figure}
