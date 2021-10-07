@@ -13,8 +13,9 @@
 \usepackage{float}
 \begin{document}
 \noindent \textbf{MA 354: Data Analysis -- Fall 2021 -- Due 10/8 at 5p}\\%\\ gives you a new line
-\noindent \textbf{Homework 2:}\vspace{1em}\\
-\emph{Complete the following opportunities to use what we've talked about in class. These questions will be graded for correctness, communication and succinctness. Ensure you show your work and explain your logic in a legible and refined submission.}
+\noindent \textbf{Homework 2: Emily Clark, Isabel Gephart, and Emma Hart}\\
+%\noindent \textbf{``Because what would a group project be, without the women doing more work."}
+
 \begin{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,7 +24,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \item\label{Q1} Select a continuous distribution (Not the uniform or exponential). 
   It does not have to be one that we cover in the notes! To explore the PDF of your 
-  distribution, specify two sets of parameter(s) for your distribution.
+  distribution, specify two sets of parameter(s) for your distribution.\\
+\textbf{Solution:} The Gaussian Distribution: Parameter sets: (mean=0, SD=1) and (mean=1, SD=2)\\
   \begin{enumerate}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (a)
@@ -35,47 +37,208 @@
   are some exciting applications of this distribution?
   
   Cite all of your sources in LaTeX by adding a BibTeX citation to the .bib file. 
-  To help, I've cited R \cite{R21} in parentheses here. \cite{R21} provides helpful 
+  To help, I've cited R \citep{R21} in parentheses here. \cite{R21} provides helpful 
   tools for the rest of the questions below. BibTeX citations are available through 
   Google Scholar by clicking the cite button below the article of  interest and 
-  selecting the BibTeX option.\\
-  \textbf{Solution:}
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  selecting the BibTeX option. 
+  \\ 
+\textbf{Solution:} Here I cite \citep{10.2307/43288461} and \citep{10.2307/27642916}. We chose to look at the Gaussian distribution for our continuous distribution. The Gaussian distribution is also known as the normal distribution and is very common in terms of independent, randomly generated variables. It is well known for the bell-shaped curve and is a very important probability graph in statistics. Its characterized by two parameters, the mean and standard deviation. Abraham DeMoivre derived formulas related to the curve early on in the 1600s; however, the name "Gaussian distribution" comes from Carl Friedrich Gauss, a German mathematician. He independently created a two-parameter exponential function in 1809 related to astronomical observation errors. James Clerk Maxwell, a British physicist, also had an early application of the normal distribution in 1859 with his law of distribution of molecular velocities. The "normal curve" formally appeared in 1870.   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (b)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item Show that you have a valid PDF. You will find the \texttt{integrate()} 
-	function in \texttt{R} helpful.\\
-  \textbf{Solution:}
+	function in \texttt{R} helpful. 
+	<<>>=
+x <- seq(-5,5,0.001)	
+all(dnorm(x) >= 0)   #all positive 
+integrate(dnorm, lower=-5, upper=5, subdivisions=10,000) #integral ~= 1
+	@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (c)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item Find the median for your two sets of parameter(s). Conduct some research 
 	to find the median based on our PDF to confirm that your numerical approach is 
-	correct.\\
-  \textbf{Solution:}
+	correct. 
+<<>>= 
+points<-data.frame(x=seq(-5,5,0.001),
+                  f1=dnorm(x=seq(-5,5,0.001),mean=0,sd=1),
+                  f2=dnorm(x=seq(-5,5,0.001),mean=1,sd=2),
+                  f3=dnorm(x=seq(-5,5,0.001),mean=1,sd=1),
+                  f4=dnorm(x=seq(-5,5,0.001),mean=-1,sd=1),
+                  f5=dnorm(x=seq(-5,5,0.001),mean=0,sd=2))
+median(points$f1)
+median(points$f2)
+#since this is a normal distribution the median and mean should be approximately equal 
+@
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (d)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item \label{q1PDF} Graph the PDF for several values of the parameter(s) 
 	including the two sets you specified. What does changing the parameter(s) do 
-	to the shape of the PDF?\\
-  \textbf{Solution:}
+	to the shape of the PDF?
+	<<>>=
+library(ggplot2)
+g1<-ggplot(data=points,aes(x=x))+
+  geom_line(aes(y=f1,color="m=0 sd=1"))+
+  geom_line(aes(y=f2,color="m=1 sd=2"))+
+  geom_line(aes(y=f3,color="m=1 sd=1"))+
+  geom_line(aes(y=f4,color="m=-1 sd=1"))+
+  geom_line(aes(y=f5,color="m=0 sd=2"))+
+  geom_hline(yintercept=0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Gaussian PDF",subtitle="For Various Parameter Values")+
+  scale_color_discrete("",breaks=c("m=0 sd=1","m=1 sd=2","m=1 sd=1",
+                                   "m=-1 sd=1","m=0 sd=2"),
+                       labels=c(bquote(mu==0~","~sigma==1),
+                                bquote(mu==1~","~sigma==2),bquote(mu==1~","~sigma==1),
+                                bquote(mu==-1~","~sigma==1),bquote(mu==0~","~sigma==2)))+
+  theme(legend.position="bottom",
+        legend.text = element_text(margin = margin(r = 15)))
+g1
+@
+\textbf{Solution:} Changing the mean of these curves affects where the peak (max) is along the x-axis. The standard deviation determines the actual height (max). The curves with standard deviations of 2 are smaller than those with standard deviation 1. 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (e)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	 \item Graph the CDF for the same values of the parameter(s) as you did in 
 	 Question \ref{q1PDF}. What does changing the parameter(s) do to the shape of 
-	 the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.\\
-  \textbf{Solution:}
+	 the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.
+	 <<>>=
+points2<-data.frame(x=seq(-5,5,0.001),
+                    f1=pnorm(q=seq(-5,5,0.001),mean=0,sd=1),
+                    f2=pnorm(q=seq(-5,5,0.001),mean=1,sd=2),
+                    f3=pnorm(q=seq(-5,5,0.001),mean=1,sd=1),
+                    f4=pnorm(q=seq(-5,5,0.001),mean=-1,sd=1),
+                    f5=pnorm(q=seq(-5,5,0.001),mean=0,sd=2))
+g2<-ggplot(data=points2,aes(x=x))+
+  geom_line(aes(y=f1,color="m=0 sd=1"))+
+  geom_line(aes(y=f2,color="m=1 sd=2"))+
+  geom_line(aes(y=f3,color="m=1 sd=1"))+
+  geom_line(aes(y=f4,color="m=-1 sd=1"))+
+  geom_line(aes(y=f5,color="m=0 sd=2"))+
+  geom_hline(yintercept=0)+
+  theme_bw()+
+  xlab("X")+
+  ylab(bquote(f[x](x)))+
+  ggtitle("Gaussian CDF",subtitle="For Various Parameter Values")+
+  scale_color_discrete("",breaks=c("m=0 sd=1","m=1 sd=2","m=1 sd=1",
+                                   "m=-1 sd=1","m=0 sd=2"),
+                       labels=c(bquote(mu==0~","~sigma==1),
+                                bquote(mu==1~","~sigma==2),bquote(mu==1~","~sigma==1),
+                                bquote(mu==-1~","~sigma==1),bquote(mu==0~","~sigma==2)))+
+  theme(legend.position="bottom",
+        legend.text = element_text(margin = margin(r = 15)))
+g2
+@
+\textbf{Solution:} Increasing the mean shifts the curves on the x-axis and where they end up when f(x) is 0.5. The standard deviation effects their path in terms of steepness. The curves with standard deviation 1 are steeper than the curves with standard deviation. Further, the validity of this CDF is shown as all values are positive and less than or equal to 1. 
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
   two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram of each set
   of data and superimpose the true density function at the specified parameter 
-  values. Interpret the results.\\
-  \textbf{Solution:}
+  values. Interpret the results.
+<<>>= 
+library(patchwork)
+
+df <- data.frame(a = rnorm(10,mean=0, sd=1))
+p1a <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 10, mean=0, sd=1")
+
+
+df <- data.frame(a = rnorm(25,mean=0, sd=1))
+p1b <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 25, mean=0, sd=1")
+
+
+df <- data.frame(a = rnorm(100,mean=0, sd=1))
+p1c <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 100, mean=0, sd=1")
+
+df <- data.frame(a = rnorm(1000,mean=0, sd=1))
+p1d <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-5, 5, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f1), color="red")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 1000, mean=0, sd=1")
+
+################ second parameter set ###
+df <- data.frame(a = rnorm(10, mean=1, sd=2))
+p2a <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 10, mean=1, sd=2")
+
+
+df <- data.frame(a = rnorm(25, mean=1, sd=2))
+p2b <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 25, mean=1, sd=2")
+
+
+df <- data.frame(a = rnorm(100, mean=1, sd=2))
+p2c <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 100, mean=1, sd=2")
+
+df <- data.frame(a = rnorm(1000, mean=1, sd=2))
+p2d <- ggplot(df, aes(x = a)) + 
+  geom_histogram(aes(y =..density..),
+                 breaks = seq(-4, 6, by = 0.25), 
+                 colour = "black", 
+                 fill = "white") +
+  geom_line(data = points, aes(x=x, y=f2), color="blue")+
+  xlab("Observations")+
+  ylab("Density") +
+  ggtitle("Gaussian",subtitle="Random sample of 1000, mean=1, sd=2")
+(p1a + p2a) / (p1b + p2b) / (p1c + p2c) / (p1d + p2d)
+#	(p1a + p1b + p1c + p1d) / (p2a + p2b + p2c + p2d)
+@
 	\end{enumerate}
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Question 2
@@ -89,6 +252,21 @@
 \item Provide the mean, standard deviation, skewness, and kurtosis of the PDF.
 Ensure to interpret each.
 
+<<>>=
+#function that returns mean, SD, skew, and kurtosis for Gaussian PDF 
+norm.summary <- function(mu,sigma){
+  norm.mean <- mu         #expected value E(x)
+  norm.sd   <- sigma    #var(x)
+  norm.skew <- 0          #skew(x)
+  norm.kurt <- 0          #kurt(x)
+  norm.stats <- data.frame(mean=norm.mean, SD=norm.sd, skewness=norm.skew, kurtosis=norm.kurt)
+  return(norm.stats)
+}
+
+#input the parameters we are using 
+norm.summary(0,1)
+norm.summary(1,2)
+@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Part (b)
@@ -97,65 +275,87 @@ Ensure to interpret each.
 two sets of parameter(s). Calculate the sample mean, standard deviation, 
 skewness, and kurtosis. Interpret the results.
 
-<<>>=
-n10.m0.sd1 <- rnorm(10, 0, 1)
-n25.m0.sd1 <- rnorm(25, 0, 1)
-n100.m0.sd1 <- rnorm(100, 0, 1)
-n1000.m0.sd1 <- rnorm(1000, 0, 1)
+<<message=FALSE, warning=FALSE>>=
+#generate random samples with mu = 0, sigma = 1
+n10.m0.sd1 <- rnorm(10, 0, 1) #n = 10
+n25.m0.sd1 <- rnorm(25, 0, 1) #n = 25
+n100.m0.sd1 <- rnorm(100, 0, 1) #n = 100
+n1000.m0.sd1 <- rnorm(1000, 0, 1) #n = 1000
 
-n10.m1.sd2 <- rnorm(10, 1, 2)
-n25.m1.sd2 <- rnorm(25, 1, 2)
-n100.m1.sd2 <- rnorm(100, 1, 2)
-n1000.m1.sd2 <- rnorm(1000, 1, 2)
+#generate random samples with mu = 0, sigma = 1
+n10.m1.sd2 <- rnorm(10, 1, 2) #n = 10
+n25.m1.sd2 <- rnorm(25, 1, 2) #n = 25
+n100.m1.sd2 <- rnorm(100, 1, 2) #n = 100
+n1000.m1.sd2 <- rnorm(1000, 1, 2) #n = 1000
 
 library(tidyverse)
 library(e1071)
 
-#summarize first distribution 
-x <- data.frame(c(mean(n10.m0.sd1),
-sd(n10.m0.sd1),
-skewness(n10.m0.sd1),
-kurtosis(n10.m0.sd1)))
-rownames(x) <- c("mean","SD","skew","kurtosis")
-x
-
-c(mean(n25.m0.sd1),
-sd(n25.m0.sd1),
-skewness(n25.m0.sd1),
-kurtosis(n25.m0.sd1))
-
-c(mean(n100.m0.sd1),
-sd(n100.m0.sd1),
-skewness(n100.m0.sd1),
-kurtosis(n100.m0.sd1))
-
-c(mean(n1000.m0.sd1),
-sd(n1000.m0.sd1),
-skewness(n1000.m0.sd1),
-kurtosis(n1000.m0.sd1))
-
-#summarize second distribution 
-c(mean(n10.m1.sd2),
-sd(n10.m1.sd2),
-skewness(n10.m1.sd2),
-kurtosis(n10.m1.sd2))
-
-c(mean(n25.m1.sd2),
-sd(n25.m1.sd2),
-skewness(n25.m1.sd2),
-kurtosis(n25.m1.sd2))
-
-c(mean(n100.m1.sd2),
-sd(n100.m1.sd2),
-skewness(n100.m1.sd2),
-kurtosis(n100.m1.sd2))
-
-c(mean(n1000.m1.sd2),
-sd(n1000.m1.sd2),
-skewness(n1000.m1.sd2),
-kurtosis(n1000.m1.sd2)) 
-
+#summarize first distribution with n = 10
+data.frame(mean = mean(n10.m0.sd1),
+sd = sd(n10.m0.sd1),
+skew = skewness(n10.m0.sd1),
+kurt = kurtosis(n10.m0.sd1))
 @
+These numbers are pretty far off the expected values indicated above. A sample size of 10 is not enough to generate an accurate distribution. 
+<<>>=
+#summarize first distribution with n = 25
+data.frame(mean = mean(n25.m0.sd1),
+sd = sd(n25.m0.sd1),
+skew = skewness(n25.m0.sd1),
+kurt = kurtosis(n25.m0.sd1))
+@
+These results are still not equal to the true values, but are closer than the sample with n = 10 which makes sense because the sample is more than twice as large. 
+<<>>=
+#summarize first distribution with n = 100
+data.frame(mean = mean(n100.m0.sd1),
+sd = sd(n100.m0.sd1),
+skew = skewness(n100.m0.sd1),
+kurt = kurtosis(n100.m0.sd1))
+@
+These results are still not equal to the true values, and the mean appears to be farther away than the estimates mean for n = 25. 
+<<>>=
+#summarize first distribution with n = 1000
+data.frame(mean = mean(n1000.m0.sd1),
+sd = sd(n1000.m0.sd1),
+skew = skewness(n1000.m0.sd1),
+kurt = kurtosis(n1000.m0.sd1))
+@
+Although these are still not equal to the true values, the larger sample size of n = 1000 is the closest estimation presented here. 
+<<>>=
+#summarize second distribution with n = 10
+data.frame(mean = mean(n10.m1.sd2),
+sd = sd(n10.m1.sd2),
+skew = skewness(n10.m1.sd2),
+kurt = kurtosis(n10.m1.sd2))
+@
+The mean in this sample is very close to the true mean of 1, but the standard devaition is very far off. This is due to small sample size. 
+<<>>=
+#summarize second distribution with n = 25
+data.frame(mean = mean(n25.m1.sd2),
+sd = sd(n25.m1.sd2),
+skew = skewness(n25.m1.sd2),
+kurt = kurtosis(n25.m1.sd2))
+@
+In this sample the standard deviation is closer to the true value, but the mean is underestimated. Again, due to small sample size. 
+<<>>=
+#summarize second distribution with n = 100
+data.frame(mean = mean(n100.m1.sd2),
+sd = sd(n100.m1.sd2),
+skew = skewness(n100.m1.sd2),
+kurt = kurtosis(n100.m1.sd2))
+@
+With n = 100 the estimated mean and standard deviation are much closer to their true values.
+<<>>=
+#summarize second distribution with n = 1000
+data.frame(mean = mean(n1000.m1.sd2),
+sd = sd(n1000.m1.sd2),
+skew = skewness(n1000.m1.sd2),
+skurt = kurtosis(n1000.m1.sd2)) 
+@
+These are the closest to the estimated values because of the larger sample size. \\
+\\
+Overall, as sample size increases the sample statistics approach the distribution parameters. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Part (c)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -164,36 +364,52 @@ Calculate the method of moments estimator(s) and maximum likelihood estimator(s)
 In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
 of moments estimated distribution, (2) the maximum likelihood estimated 
 distribution, and superimpose the true distribution in both.
+\\
+Plots are created using \cite{gridExtra}
 
 <<message=FALSE, warning=FALSE>>=
-#################################### n = 10, par 1 #################################
-#MOM: n = 10
-norm.mom <- function(par,data){
+#################################### FUNCTIONS #################################
+#functions adapted from class 
+#MOM function 
+norm.mom <- function(par,data){  
   mu <- par[1]
   sigma <- par[2]
   
-  EX1 <- mu
+  EX1 <- mu #expected values
   EX2 <- mu^2 + sigma^2
   
-  xbar1 <- mean(data)
+  xbar1 <- mean(data) #sample values 
   xbar2 <- mean(data^2)
   
-  c(EX1-xbar1, EX2-xbar2)
+  c(EX1-xbar1, EX2-xbar2) #finds difference
 }
+#MLE function 
+norm.ll<-function(par, data, neg=T){
+  mu <- par[1]
+  sigma <- par[2]
+  ll <- sum(dnorm(x=data, mean=mu, sd=sigma, log = TRUE))
+  ifelse(neg, -ll, ll)
+}
+
+#load libraries
+library(ggplot2)
+library(gridExtra)
+library(lemon)
 library(nleqslv)
-mom.m0.sd1 <- nleqslv(x = c(0,1),
+
+#################################### n = 10, par 1 ############################
+#MOM: n = 10
+mom.m0.sd1 <- nleqslv(x = c(0,1), 
                       fn = norm.mom,
                       data = n10.m0.sd1)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #sets x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom distribution 
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -201,30 +417,25 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+
+  ggtitle("MOM Estimated Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
+####################
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m0.sd1 <- optim(par = c(0,1),
                     fn = norm.ll,
                     data=n10.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist 
+                        F2 = dnorm(seq(-6,6,0.01), #mle distribution 
                                    mean = mle.m0.sd1$par[1], 
-                                   sd = mle.m0.sd1$par[1]))
-
+                                   sd = mle.m0.sd1$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -232,12 +443,11 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
-
 
 #combine plots
 grid.arrange(arrangeGrob(p1.mom,
@@ -245,34 +455,19 @@ grid.arrange(arrangeGrob(p1.mom,
                          nrow = 1,
                          top = "Gaussian PDF with n = 10")) 
 
-#################################### n = 10, par 2 #################################
+#################################### n = 10, par 2 ############################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m1.sd2 <- nleqslv(x = c(1,2),
                       fn = norm.mom,
                       data = n10.m1.sd2)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -280,31 +475,24 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+ 
+  ggtitle("MOM Estimated Distribution")+ 
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
-
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m1.sd2 <- optim(par = c(1,2),
                     fn = norm.ll,
                     data=n10.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01),  #mle dist
                                    mean = mle.m1.sd2$par[1], 
-                                   sd = mle.m1.sd2$par[1]))
-
+                                   sd = mle.m1.sd2$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -312,7 +500,7 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
@@ -324,9 +512,7 @@ grid.arrange(arrangeGrob(p1.mom,
                          p1.mle,
                          nrow = 1,
                          top = "Gaussian PDF with n = 10")) 
-
 @
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Part (d)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -337,34 +523,19 @@ of moments estimated distribution, (2) the maximum likelihood estimated distribu
 and superimpose the true distribution in both.
 
 <<message=FALSE, warning=FALSE>>=
-#################################### n = 25, par 1 #################################
+#################################### n = 25, par 1 ############################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m0.sd1 <- nleqslv(x = c(0,1),
                       fn = norm.mom,
                       data = n25.m0.sd1)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis 
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -372,30 +543,24 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+
+  ggtitle("MOM Estimated Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m0.sd1 <- optim(par = c(0,1),
                     fn = norm.ll,
                     data=n25.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m0.sd1$par[1], 
-                                   sd = mle.m0.sd1$par[1]))
-
+                                   sd = mle.m0.sd1$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -403,7 +568,7 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("MAximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
@@ -415,34 +580,19 @@ grid.arrange(arrangeGrob(p1.mom,
                          nrow = 1,
                          top = "Gaussian PDF with n = 25")) 
 
-#################################### n = 25, par 2 #################################
+#################################### n = 25, par 2 ############################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m1.sd2 <- nleqslv(x = c(1,2),
                       fn = norm.mom,
                       data = n25.m1.sd2)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis 
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -450,31 +600,24 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+ 
+  ggtitle("MOM Estimated Distribution")+ 
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
-
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m1.sd2 <- optim(par = c(1,2),
                     fn = norm.ll,
                     data=n25.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m1.sd2$par[1], 
-                                   sd = mle.m1.sd2$par[1]))
-
+                                   sd = mle.m1.sd2$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -482,20 +625,17 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
-
 
 #combine plots
 grid.arrange(arrangeGrob(p1.mom,
                          p1.mle,
                          nrow = 1,
                          top = "Gaussian PDF with n = 25")) 
-
-
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -508,34 +648,19 @@ of moments estimated distribution, (2) the maximum likelihood estimated distribu
 and superimpose the true distribution in both.
 
 <<message=FALSE, warning=FALSE>>=
-#################################### n = 100, par 1 #################################
+#################################### n = 100, par 1 ###########################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m0.sd1 <- nleqslv(x = c(0,1),
                       fn = norm.mom,
                       data = n100.m0.sd1)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -543,7 +668,7 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+
+  ggtitle("MOM Estimated Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
@@ -551,23 +676,17 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
 
 
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m0.sd1 <- optim(par = c(0,1),
                     fn = norm.ll,
                     data=n100.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m0.sd1$par[1], 
-                                   sd = mle.m0.sd1$par[1]))
-
+                                   sd = mle.m0.sd1$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -575,7 +694,7 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
@@ -588,34 +707,19 @@ grid.arrange(arrangeGrob(p1.mom,
                          nrow = 1,
                          top = "Gaussian PDF with n = 100")) 
 
-#################################### n = 100, par 2 #################################
+#################################### n = 100, par 2 ###########################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m1.sd2 <- nleqslv(x = c(1,2),
                       fn = norm.mom,
                       data = n100.m1.sd2)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -623,30 +727,24 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+ 
+  ggtitle("MOM Estimated Distribution")+ 
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m1.sd2 <- optim(par = c(1,2),
                     fn = norm.ll,
                     data=n100.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m1.sd2$par[1], 
-                                   sd = mle.m1.sd2$par[1]))
-
+                                   sd = mle.m1.sd2$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -654,22 +752,18 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
-
 
 #combine plots
 grid.arrange(arrangeGrob(p1.mom,
                          p1.mle,
                          nrow = 1,
                          top = "Gaussian PDF with n = 100")) 
-
-
 @
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Part (f)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -680,34 +774,19 @@ of moments estimated distribution, (2) the maximum likelihood estimated distribu
 and superimpose the true distribution in both.
 
 <<message=FALSE, warning=FALSE>>=
-#################################### n = 1000, par 1 #################################
+#################################### n = 1000, par 1 ##########################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m0.sd1 <- nleqslv(x = c(0,1),
                       fn = norm.mom,
                       data = n1000.m0.sd1)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -715,31 +794,24 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+
+  ggtitle("MOM Estimated Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
-
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m0.sd1 <- optim(par = c(0,1),
                     fn = norm.ll,
                     data=n1000.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m0.sd1$par[1], 
-                                   sd = mle.m0.sd1$par[1]))
-
+                                   sd = mle.m0.sd1$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=0, sd=1"))+
@@ -747,12 +819,11 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==0~","~sigma==1)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
-
 
 #combine plots
 grid.arrange(arrangeGrob(p1.mom,
@@ -760,34 +831,19 @@ grid.arrange(arrangeGrob(p1.mom,
                          nrow = 1,
                          top = "Gaussian PDF with n = 1000")) 
 
-#################################### n = 1000, par 2 #################################
+#################################### n = 1000, par 2 ##########################
 #MOM: n = 10
-norm.mom <- function(par,data){
-  mu <- par[1]
-  sigma <- par[2]
-  
-  EX1 <- mu
-  EX2 <- mu^2 + sigma^2
-  
-  xbar1 <- mean(data)
-  xbar2 <- mean(data^2)
-  
-  c(EX1-xbar1, EX2-xbar2)
-}
-library(nleqslv)
 mom.m1.sd2 <- nleqslv(x = c(1,2),
                       fn = norm.mom,
                       data = n1000.m1.sd2)
 
 #create MOM plot: n = 10
-library(ggplot2)
-library(gridExtra)
-library(lemon)
-ggdat.mom <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
+#plot
 p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -795,30 +851,24 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Method of Moments Estimated Distribution")+ 
+  ggtitle("MOM Estimated Distribution")+ 
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
 #MLE: n = 10
-norm.ll<-function(par, data, neg=T){
-  mu <- par[1]
-  sigma <- par[2]
-  ll <- sum(dnorm(x=data, mean=mu, sd=sigma))
-  ifelse(neg, -ll, ll)
-}
 mle.m1.sd2 <- optim(par = c(1,2),
                     fn = norm.ll,
                     data=n1000.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001),
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2),
-                        F2 = dnorm(seq(-6,6,0.001), 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), # x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m1.sd2$par[1], 
-                                   sd = mle.m1.sd2$par[1]))
-
+                                   sd = mle.m1.sd2$par[2]))
+#plot
 p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   geom_histogram(stat='identity')+
   geom_line(aes(y = F1,color = "m=1, sd=2"))+
@@ -826,7 +876,7 @@ p1.mle <- ggplot(data = ggdat.mle, aes(x=x, y = F2))+
   theme_bw()+
   xlab("X")+
   ylab(bquote(f[x](x)))+
-  ggtitle("Maximum Likelihood Estimated Distribution")+
+  ggtitle("MLE Distribution")+
   scale_color_discrete(labels=c(bquote(mu==1~","~sigma==2)))+
   theme(legend.position = "bottom",
         legend.text = element_text(margin = margin(r = 15))) +
@@ -837,22 +887,23 @@ grid.arrange(arrangeGrob(p1.mom,
                          p1.mle,
                          nrow = 1,
                          top = "Gaussian PDF with n = 1000")) 
-
-
 @
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Part (g)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item Comment on the results of parts (c)-(f). 
+\item Comment on the results of parts (c)-(f). \\
+As expected, as n increases the estimated distributions become more similar to the true distributions. The MOM and MLE estimators seem to be comparable estimators, and usually come up with very similar results depending on the random sample. 
 \end{enumerate}
 \newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Question 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \item\label{Q3} Select a discrete distribution (not the Poisson). It does not 
+
+\item Select a discrete distribution (not the Poisson). It does not 
   have to be one that we cover in the notes! To explore the PMF of your distribution, 
   specify two sets of parameter(s) for your distribution.
   \begin{enumerate}
@@ -874,10 +925,10 @@ $$ F_X(x|p) =
       1 & 1\leq x 
    \end{cases}
 $$
-(Sinharay, 132).  We could similarly write this using floor operator as:
+(Sinharay, 132).  We could similarly write this using the floor operator and indicator function as:
 $$F_X(x|p) = [(1-p)I(\lfloor x \rfloor = 0)]+I(\lfloor x \rfloor \geq 1)
 $$
-(Cipolli, 173). The Bernoulli distribution is often used to in the context of flipping coins(Sinharay, 132).  A fair coin would be represented by a Bernoulli distribution with both $p$ and $q$ equal to 0.5 (while any other parameter values would represent an unfair coin flip).  I will investigate when the parameters p=0.5, q=0.5 and p=0.7,q=0.3.
+(Cipolli, 173). The Bernoulli distribution, created by Jakob Bernoulli, is often used to in the context of flipping coins because it takes one of two values (Sinharay, 132).  Another area of application is in dealing with the probabilities of wins and losses (or any binary outcome kind of system).  A fair coin would be represented by a Bernoulli distribution with both $p$ and $q$ equal to 0.5 (while any other parameter values would represent an unfair coin flip).  I will investigate when the parameters p=0.5, q=0.5 and p=0.7,q=0.3.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (b)
@@ -902,7 +953,7 @@ $f_X(0|p)=p^0(1-p)^{1-0}=1-p$ or $f_X(1|p)=p^1(1-p)^{1-1}=p$.  Because $p\in (0,
   \textbf{Solution:}
   When p=0.5 and q=0.5, the median value depends in some ways on how we define some of the specifics of a median.  Because this situation represents a distribution where an equal number of ``successes" and ``failures" occur, we could say that there is no median.  We could also define the median as the in-between value $x=0.5$.
   When p=0.7 and q=0.3, the median value is more straightforward.  This distribution represents the case when 70\% of observations are ``successes" and 30\% are ``failures," and therefore the median value would be a ``success" with x=1.
-  In general, the median would be equal to the x that maximizes the PMF.  The border case when $f_X(0|p)=f_X(1|p)$, as discussed above, depends on how we want to define the nuances of the median in our given context.
+  In general for the Bernoulli distribution, the median would be equal to the x that maximizes the PMF.  Said another way, when $p>q$, the median is 1, and when $p<q$, the median is 0.  The border case when $p=q$ and $f_X(0|p)=f_X(1|p)$, as discussed above, depends on how we want to define the nuances of the median in our given context (Sinharay, 132).
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (d)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -910,7 +961,7 @@ $f_X(0|p)=p^0(1-p)^{1-0}=1-p$ or $f_X(1|p)=p^1(1-p)^{1-1}=p$.  Because $p\in (0,
 	including the two sets you specified. What does changing the parameter(s) do 
 	to the shape of the PMF?\\
 	\textbf{Solution:}
-	<<>>=
+	<<warning=FALSE,message=FALSE>>=
 	##############################################################
 	##    ADAPTED FROM CHAPTER 6 NOTES CODE: ch6-Bernoulli.R
 	##############################################################
@@ -979,7 +1030,7 @@ plotbern <- function(prob){ # Pass in the success probability
   return(PMF)
 }
 @
-\begin{figure}
+\begin{figure}[H]
 \centering
 <<>>=
 (plotbern(prob=0.25))/
@@ -1022,7 +1073,7 @@ plotbern <- function(prob){ # Pass in the success probability
     return(CDF)
 }
 @
-\begin{figure}
+\begin{figure}[H]
 \centering
 <<>>=
 (plotbern(prob=0.25))/(plotbern(prob=0.50))/(plotbern(prob=0.75))
@@ -1065,7 +1116,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = 0.5),
                       F = pbern(q = (-1:2), prob = 0.5))
 
-g1<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g1<-ggplot(NULL) +                                      
   geom_histogram(data=x.10.50,                          #uses random sample
                  aes(x=rbern.10..0.5.),                 #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -1076,10 +1127,10 @@ g1<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.5 and n=10") +           #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
 
-g2<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g2<-ggplot(NULL) +                                     
   geom_histogram(data=x.25.50,                          #uses random sample
                  aes(x=rbern.25..0.5.),                 #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -1090,10 +1141,10 @@ g2<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.5 and n=25") +           #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
   
-g3<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g3<-ggplot(NULL) +                                      
   geom_histogram(data=x.100.50,                         #uses random sample
                  aes(x=rbern.100..0.5.),                #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -1104,11 +1155,11 @@ g3<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.5 and n=100") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF
                  color="red")                           #Makes PMF red
   
   
-g4<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g4<-ggplot(NULL) +                                      
   geom_histogram(data=x.1000.50,                        #uses random sample
                  aes(x=rbern.1000..0.5.),               #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -1119,7 +1170,7 @@ g4<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.5 and n=1000") +         #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
                  color="red")                           #Makes PMF red
 
 ## PMF for p=0.5 
@@ -1127,7 +1178,7 @@ ggdat <- data.frame(x = (-1:2),
                       f = dbern(x = (-1:2), prob = 0.75),
                       F = pbern(q = (-1:2), prob = 0.75))
 
-g5<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g5<-ggplot(NULL) +                                      
   geom_histogram(data=x.10.75,                          #uses random sample
                  aes(x=rbern.10..0.75.),                #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -1138,10 +1189,10 @@ g5<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.75 and n=10") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
 
-g6<-ggplot(NULL) +                                      #left NULL so that we can superimpose
+g6<-ggplot(NULL) +                                      
   geom_histogram(data=x.25.75,                          #uses random sample
                  aes(x=rbern.25..0.75.),                #makes histogram
                  breaks=seq(-0.5,1.5,1),                #Set up bins to use
@@ -1152,7 +1203,7 @@ g6<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.75 and n=25") +          #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
                  color="red")                           #Makes PMF red
   
 g7<-ggplot(NULL) +                                      #left NULL so that we can superimpose
@@ -1166,7 +1217,7 @@ g7<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.75 and n=100") +         #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF 
                  color="red")                           #Makes PMF red
   
   
@@ -1181,7 +1232,7 @@ g8<-ggplot(NULL) +                                      #left NULL so that we ca
           subtitle = "With p=0.75 and n=1000") +        #add title to plot
   geom_hline(yintercept=0) +                            #adds a line for the x-axis
   geom_linerange(data=ggdat,                            #uses earlier PMF data
-                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF (weighted by number of observations)
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
                  color="red")                           #Makes PMF red
 @
 \begin{figure}[H]
@@ -1189,18 +1240,19 @@ g8<-ggplot(NULL) +                                      #left NULL so that we ca
 <<>>=
 (g1 + g5) / (g2 + g6) / (g3 + g7) / (g4 + g8)
 @
-\caption{Bernoulli Distributionsfor randomly generated samples, with varied n and p.  The red lines prepresent the PMF, while the histograms show the observed counts.}
+\caption{Bernoulli Distributions for randomly generated samples, with varied n and p.  The red lines prepresent the PMF, while the histograms show the observed counts.}
 \label{BernRand}
 \end{figure}
   The greater the size of our random samples, the closer, generally, the spread of the observations we make are to the number we would predict from the PMF.  We can see this in that the heights of the grey histogram bars seem to get closer to the red lines that represent the PMF's prediction.
-	\end{enumerate}
-	\newpage
+\end{enumerate}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%  Question 4 
+%%%%%%%%%  Question 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\item Continue with the discrete distribution you selected for Question \ref{Q3}.
+\item
+Continue with the discrete distribution you selected for Question 3.
 \begin{enumerate}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (a)
@@ -1209,6 +1261,7 @@ g8<-ggplot(NULL) +                                      #left NULL so that we ca
   Ensure to interpret each.\\
   \textbf{Solution:}
   <<>>=
+
 bern.summ <- function(p){
   bern.mean <- p                     #mean = expected value = p
   bern.sd   <- sqrt(p*(1-p))         #sqrt of variance
@@ -1238,8 +1291,45 @@ the skewness is -1.15. The kurtosis is -0.67, again representing a platykurtic d
   two sets of parameter(s). Calculate the sample mean, standard deviation, 
   skewness, and kurtosis. Interpret the results.\\
   \textbf{Solution:}
-    <<>>=
+    <<warning=FALSE,message=FALSE>>=
 library(e1071)
+library("tidyverse")
+library("ggplot2")
+library("patchwork")
+
+#############################################################
+###Bernoulli Distribution ###################################
+#############################################################	
+rbern<-function(n,p){
+  support<-c(0,1)
+  x<-sample(x=support, size=n, replace=TRUE, prob=dbern(support, p=p))
+  return(x)
+}
+dbern<-function(x,prob){                #DEFINING THE PMF
+  if(prob<0 | prob>1){
+    errormsg <- "This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  indicator <- rep(0, length(x))
+  indicator[x==0] <- 1 # indicator should be one if x=0
+  indicator[x==1] <- 1 # indicator should be one if x=1
+  fx <- (prob^x * (1-prob)^(1-x)) * indicator # PMF formula
+  return(fx)
+}
+
+pbern<-function(q, prob){              
+  if(prob<0 | prob>1){
+    errormsg<-"This function is only valid for success probabilities between 0 and 1."
+    stop(errormsg)
+  }
+  indicator1 <- rep(1, length(q))
+  indicator1[q != 0] <- 0 #indicator should be zero if x!=0
+  indicator2 <- rep(1, length(q))
+  indicator2[q < 1] <- 0 #indicator should be zero if x<1
+  Fx <- (1-prob) * indicator1 + indicator2
+  return(Fx)
+}
+
 bern.rand.summ <- function(n,p){
   obs<-rbern(n, p)
   bern.mean <- mean(obs)
@@ -1288,10 +1378,148 @@ those predicted.  The package e1071, from \cite{e1071}, is used for the calculat
   with (1) the method of moments estimated distribution, (2) the maximum likelihood 
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
-  <<>>=
-x.10.50   <-data.frame(rbern(10, .5))
-x.10.75   <-data.frame(rbern(10, .75))
+These plots are shown in figure \ref{partc}.  In this and following parts, I create these figures using \cite{ggplot}, \cite{tidyverse}, and \cite{patchwork}.
+<<>>=
+x.10.50   <- data.frame(xs=rbern(10, .5))
+
+###############################################
+## MOM
+###############################################
+
+## AS EXPLAINED ABOVE
+# bern.mom <- function(par,data){
+#   p <- par[1]
+#   EX1 <- p
+#   xbar <- mean(data)
+#   return(EX1-xbar)  
+#   # minimizing this is identical to making the p = mean of the data
+# }
+
+mom.p     <- mean(x.10.50$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g1<-ggplot(NULL) +                                      
+  geom_histogram(data=x.10.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.5 and n=10") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.10.50$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g2<-ggplot(NULL) +                                      
+  geom_histogram(data=x.10.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.5 and n=10") +          #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
 @
+
+<<>>=
+x.10.75   <-data.frame(xs=rbern(10, .75))
+###############################################
+## MOM
+###############################################
+mom.p     <- mean(x.10.75$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g3<-ggplot(NULL) +                                      
+  geom_histogram(data=x.10.75,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.75 and n=10") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.10.75$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g4<-ggplot(NULL) +                                      
+  geom_histogram(data=x.10.75,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.75 and n=10") +          #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=10*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+@
+\begin{figure}
+\centering
+<<>>=
+(g1 + g2) / (g3 + g4)
+@
+\caption{MOM and ML estimators for n=10, p=0.5 (top) and n=10, p=0.75 (bottom).  The grey histogram bars show the randomly created data, while the red lines represent the distributions estimated by the MOM and ML methods.}
+\label{partc}
+\end{figure}
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (d)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1301,10 +1529,147 @@ x.10.75   <-data.frame(rbern(10, .75))
   with (1) the method of moments estimated distribution, (2) the maximum likelihood 
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
-    <<>>=
-x.25.50   <-data.frame(rbern(25, .5))
-x.25.75   <-data.frame(rbern(25, .75))
+  These plots are shown in figure \ref{partd}.
+  <<>>=
+x.25.50   <- data.frame(xs=rbern(25, .5))
+
+###############################################
+## MOM
+###############################################
+
+## AS EXPLAINED ABOVE
+# bern.mom <- function(par,data){
+#   p <- par[1]
+#   EX1 <- p
+#   xbar <- mean(data)
+#   return(EX1-xbar)  
+#   # minimizing this is identical to making the p = mean of the data
+# }
+
+mom.p     <- mean(x.25.50$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g1<-ggplot(NULL) +                                      
+  geom_histogram(data=x.25.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.5 and n=25") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.25.50$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g2<-ggplot(NULL) +                                      
+  geom_histogram(data=x.25.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.5 and n=25") +          #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
 @
+
+<<>>=
+x.25.75   <-data.frame(xs=rbern(25, .75))
+###############################################
+## MOM
+###############################################
+mom.p     <- mean(x.25.75$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g3<-ggplot(NULL) +                                      
+  geom_histogram(data=x.25.75,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.75 and n=25") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.25.75$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g4<-ggplot(NULL) +                                      
+  geom_histogram(data=x.25.75,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.75 and n=25") +         #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=25*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+@
+\begin{figure}
+\centering
+<<>>=
+(g1 + g2) / (g3 + g4)
+@
+\caption{MOM and ML estimators for n=25, p=0.5 (top) and n=10, p=0.75 (bottom).  The grey histogram bars show the randomly created data, while the red lines represent the distributions estimated by the MOM and ML methods.}
+\label{partd}
+\end{figure}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (e)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1314,10 +1679,138 @@ x.25.75   <-data.frame(rbern(25, .75))
   with (1) the method of moments estimated distribution, (2) the maximum likelihood
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
-    <<>>=
-x.100.50  <-data.frame(rbern(100, .5))
-x.100.75  <-data.frame(rbern(100, .75))
+  These plots are shown in figure \ref{parte}.
+  <<>>=
+x.100.50   <- data.frame(xs=rbern(100, .5))
+
+###############################################
+## MOM
+###############################################
+
+mom.p     <- mean(x.100.50$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g1<-ggplot(NULL) +                                      
+  geom_histogram(data=x.100.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.5 and n=100") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF 
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.100.50$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g2<-ggplot(NULL) +                                      
+  geom_histogram(data=x.100.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.5 and n=100") +          #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
 @
+
+<<>>=
+x.100.75   <-data.frame(xs=rbern(100, .75))
+###############################################
+## MOM
+###############################################
+mom.p     <- mean(x.100.75$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g3<-ggplot(NULL) +                                      
+  geom_histogram(data=x.100.75,                         #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.75 and n=100") +         #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=100*f, ymin=0),          #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.100.75$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g4<-ggplot(NULL) +                                      
+  geom_histogram(data=x.100.75,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.75 and n=100") +          #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=100*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+@
+\begin{figure}
+\centering
+<<>>=
+(g1 + g2) / (g3 + g4)
+@
+\caption{MOM and ML estimators for n=100, p=0.5 (top) and n=10, p=0.75 (bottom).  The grey histogram bars show the randomly created data, while the red lines represent the distributions estimated by the MOM and ML methods.}
+\label{parte}
+\end{figure}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1327,15 +1820,155 @@ x.100.75  <-data.frame(rbern(100, .75))
   with (1) the method of moments estimated distribution, (2) the maximum likelihood
   estimated distribution, and superimpose the true distribution in both.\\
   \textbf{Solution:}
-    <<>>=
-x.1000.50 <-data.frame(rbern(1000, .5))
-x.1000.75 <-data.frame(rbern(1000, .75))
+  These plots are shown in figure \ref{partf}.
+  <<>>=
+x.1000.50   <- data.frame(xs=rbern(1000, .5))
+
+###############################################
+## MOM
+###############################################
+
+## AS EXPLAINED ABOVE
+# bern.mom <- function(par,data){
+#   p <- par[1]
+#   EX1 <- p
+#   xbar <- mean(data)
+#   return(EX1-xbar)  
+#   # minimizing this is identical to making the p = mean of the data
+# }
+
+mom.p     <- mean(x.1000.50$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g1<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.50,                          #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.5 and n=1000") +           #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=1000*f, ymin=0),           #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.1000.50$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g2<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.50,                        #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.5 and n=1000") +        #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
+                 color="red")                           #Makes PMF red
+@
+
+<<>>=
+x.1000.75   <-data.frame(xs=rbern(1000, .75))
+###############################################
+## MOM
+###############################################
+mom.p     <- mean(x.1000.75$xs)
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mom.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mom.p))
+
+g3<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.75,                        #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and MOM Estimated",
+          subtitle = "With p=0.75 and n=1000") +        #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
+                 color="red")                           #Makes PMF red
+
+#######################################################
+# MLE 
+# ADAPTED FROM Lecture 10 Code: Continuous Distribution and Point Estimation
+#######################################################
+lbern.ll<-function(par, data, neg=T){
+  p <- par[1]
+  ll <- sum(log(dbern(x=data, p)))
+  ifelse(neg, -ll, ll)
+}
+mle <- optim(method = 'Brent',
+      par = 0.5,
+      fn = lbern.ll,
+      data = x.1000.75$xs,
+      lower = 0,
+      upper = 1)
+mle.p <- mle$par
+
+ggdat <- data.frame(x = (-1:2),
+                      f = dbern(x = (-1:2), prob = mle.p), #SETS X AXES NICELY
+                      F = pbern(q = (-1:2), prob = mle.p))
+
+g4<-ggplot(NULL) +                                      
+  geom_histogram(data=x.1000.75,                        #uses random sample
+                 aes(x=xs),                             #makes histogram
+                 breaks=seq(-0.5,1.5,1),                #Set up bins to use
+                 fill = "lightgrey", color="black") +   #color the histogram
+  xlab("X") +                                           #x axis label
+  ylab("Frequency")+                                    #y axis label
+  ggtitle("True and ML Estimated"
+          ,subtitle = "With p=0.75 and n=1000") +       #add title to plot
+  geom_hline(yintercept=0) +                            #adds a line for the x-axis
+  geom_linerange(data=ggdat,                            #uses earlier PMF data
+                 aes(x=x, ymax=1000*f, ymin=0),         #Adds PMF
+                 color="red")                           #Makes PMF red
+@
+\begin{figure}
+\centering
+<<>>=
+(g1 + g2) / (g3 + g4)
+@
+\caption{MOM and ML estimators for n=1000, p=0.5 (top) and n=10, p=0.75 (bottom).  The grey histogram bars show the randomly created data, while the red lines represent the distributions estimated by the MOM and ML methods.}
+\label{partf}
+\end{figure}
 @
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (g)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \item Comment on the results of parts (c)-(f).\\
   \textbf{Solution:}
+  For the Bernoulli Distribution, the methods of moments estimation is quite simplified.  Because only the values of 0 and 1 are included in the support, and because each power of both 1 and 0 are equal to 1 and 0 ($1^k=1$ and $0^k=0$ for all k), each moment is equal to the original mean of the data.  Therefore, the function we would minimize for our estimation would be the parameter p minus the mean of the data, which we can solve easily by setting p equal to the mean of the data.  In each case, the method of moments estimator will be able to perfectly represent the randomly generated set of data.  With the maximum likelihood estimator, by a similar logic, the method can always exactly find a parameter to match the distribution, because the support can take only two values. 
+  We can see this in figures \ref{partc}-\ref{partf}.  In each case, the MOM and ML estimated distributions match the true distributions exactly.  Increasing n makes the random distributions more closely match what we would expect (p as the percentage of ``success" observations), but increasing n has no effect on how well the MOM and ML methods map the true distributions.  For all n values, they are exact (because our support includes only two values and unique solutions exist are guaranteed to exist).
   
 \end{enumerate}
 \end{enumerate}%End overall enumerate

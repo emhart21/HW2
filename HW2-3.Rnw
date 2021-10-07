@@ -12,7 +12,7 @@
 \begin{document}
 \noindent \textbf{MATH 354: Data Analysis -- Fall 2021 -- Due 10/8 at 5p}\\%\\ gives you a new line
 \noindent \textbf{Homework 2: Question 3}\vspace{1em}\\
-Select a discrete distribution (not the Poisson). It does not 
+  Select a discrete distribution (not the Poisson). It does not 
   have to be one that we cover in the notes! To explore the PMF of your distribution, 
   specify two sets of parameter(s) for your distribution.
   \begin{enumerate}

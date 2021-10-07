@@ -255,9 +255,9 @@ mom.m0.sd1 <- nleqslv(x = c(0,1),
                       data = n10.m0.sd1)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #sets x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom distribution 
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #sets x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom distribution 
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
 #plot
@@ -281,9 +281,9 @@ mle.m0.sd1 <- optim(par = c(0,1),
                     data=n10.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist 
-                        F2 = dnorm(seq(-6,6,0.001), #mle distribution 
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist 
+                        F2 = dnorm(seq(-6,6,0.01), #mle distribution 
                                    mean = mle.m0.sd1$par[1], 
                                    sd = mle.m0.sd1$par[2]))
 #plot
@@ -313,9 +313,9 @@ mom.m1.sd2 <- nleqslv(x = c(1,2),
                       data = n10.m1.sd2)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
 #plot
@@ -338,9 +338,9 @@ mle.m1.sd2 <- optim(par = c(1,2),
                     data=n10.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001),  #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01),  #mle dist
                                    mean = mle.m1.sd2$par[1], 
                                    sd = mle.m1.sd2$par[2]))
 #plot
@@ -381,9 +381,9 @@ mom.m0.sd1 <- nleqslv(x = c(0,1),
                       data = n25.m0.sd1)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis 
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis 
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
 #plot
@@ -406,9 +406,9 @@ mle.m0.sd1 <- optim(par = c(0,1),
                     data=n25.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m0.sd1$par[1], 
                                    sd = mle.m0.sd1$par[2]))
 #plot
@@ -438,9 +438,9 @@ mom.m1.sd2 <- nleqslv(x = c(1,2),
                       data = n25.m1.sd2)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis 
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis 
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
 #plot
@@ -463,9 +463,9 @@ mle.m1.sd2 <- optim(par = c(1,2),
                     data=n25.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m1.sd2$par[1], 
                                    sd = mle.m1.sd2$par[2]))
 #plot
@@ -506,9 +506,9 @@ mom.m0.sd1 <- nleqslv(x = c(0,1),
                       data = n100.m0.sd1)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
 #plot
@@ -532,9 +532,9 @@ mle.m0.sd1 <- optim(par = c(0,1),
                     data=n100.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m0.sd1$par[1], 
                                    sd = mle.m0.sd1$par[2]))
 #plot
@@ -565,9 +565,9 @@ mom.m1.sd2 <- nleqslv(x = c(1,2),
                       data = n100.m1.sd2)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
 #plot
@@ -590,9 +590,9 @@ mle.m1.sd2 <- optim(par = c(1,2),
                     data=n100.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m1.sd2$par[1], 
                                    sd = mle.m1.sd2$par[2]))
 #plot
@@ -632,9 +632,9 @@ mom.m0.sd1 <- nleqslv(x = c(0,1),
                       data = n1000.m0.sd1)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m0.sd1$x[1], 
                                    sd = mom.m0.sd1$x[2]))
 #plot
@@ -657,9 +657,9 @@ mle.m0.sd1 <- optim(par = c(0,1),
                     data=n1000.m0.sd1)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 0,sd=1), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 0,sd=1), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m0.sd1$par[1], 
                                    sd = mle.m0.sd1$par[2]))
 #plot
@@ -689,9 +689,9 @@ mom.m1.sd2 <- nleqslv(x = c(1,2),
                       data = n1000.m1.sd2)
 
 #create MOM plot: n = 10
-ggdat.mom <- data.frame(x = seq(-6,6,0.001), #x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mom dist
+ggdat.mom <- data.frame(x = seq(-6,6,0.01), #x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mom dist
                                    mean = mom.m1.sd2$x[1], 
                                    sd = mom.m1.sd2$x[2]))
 #plot
@@ -714,9 +714,9 @@ mle.m1.sd2 <- optim(par = c(1,2),
                     data=n1000.m1.sd2)
 
 #create MLE plot: n = 10
-ggdat.mle <- data.frame(x = seq(-6,6,0.001), # x axis
-                        F1 = dnorm(seq(-6,6,0.001),mean = 1,sd=2), #true dist
-                        F2 = dnorm(seq(-6,6,0.001), #mle dist
+ggdat.mle <- data.frame(x = seq(-6,6,0.01), # x axis
+                        F1 = dnorm(seq(-6,6,0.01),mean = 1,sd=2), #true dist
+                        F2 = dnorm(seq(-6,6,0.01), #mle dist
                                    mean = mle.m1.sd2$par[1], 
                                    sd = mle.m1.sd2$par[2]))
 #plot
