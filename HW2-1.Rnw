@@ -166,7 +166,7 @@ g2
   two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram of each set
   of data and superimpose the true density function at the specified parameter 
   values. Interpret the results. \\
-\textbf{Solution:} Below it is clear that as the sample size increases, the histograms of the observations get closer to the true density function at the specified parameter. Eventually with a very large sample and very small bins for the histogram, they would look essentially the same. We see the same trend regardless of which parameter set is used. 
+\textbf{Solution:} Below it is clear that as the sample size increases, the histograms of the observations get closer to the true density function at the specified parameters. Eventually with a very large sample and very small bins for the histogram, they would look essentially the same. We see the same trend regardless of which parameter set is used. 
 <<>>= 
 library(patchwork)
 
@@ -263,7 +263,7 @@ p2d <- ggplot(df, aes(x = a)) +
   ylab("Density") +
   ggtitle("Gaussian",subtitle="Random sample of 1000, mean=1, sd=2")
 (p1a + p2a) / (p1b + p2b) / (p1c + p2c) / (p1d + p2d)
-#	(p1a + p1b + p1c + p1d) / (p2a + p2b + p2c + p2d)
+
 @
 	\end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
