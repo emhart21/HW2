@@ -401,6 +401,10 @@ library(gridExtra)
 library(lemon)
 library(nleqslv)
 
+@
+The following solution uses  \cite{ggplot2}, \cite{gridExtra}, \cite{lemon}, \cite{nleqslv}.
+<<>>=
+
 #################################### n = 10, par 1 ############################
 #MOM: n = 10
 mom.m0.sd1 <- nleqslv(x = c(0,1), 
