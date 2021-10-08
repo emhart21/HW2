@@ -369,7 +369,7 @@ of moments estimated distribution, (2) the maximum likelihood estimated
 distribution, and superimpose the true distribution in both.\\
 \textbf{Solution:}
 \\
-Plots are created using \cite{gridExtra}
+Plots are created using \cite{gridExtra}.
 
 <<message=FALSE, warning=FALSE>>=
 #################################### FUNCTIONS #################################
@@ -402,7 +402,7 @@ library(lemon)
 library(nleqslv)
 
 @
-The following solution uses  \cite{ggplot2}, \cite{gridExtra}, \cite{lemon}, \cite{nleqslv}.
+The following solution uses  \cite{ggplot}, \cite{gridExtra}, \cite{lemon}, \cite{nleqslv}.
 <<>>=
 
 #################################### n = 10, par 1 ############################
