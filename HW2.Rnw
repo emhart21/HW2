@@ -57,7 +57,8 @@ integrate(dnorm, lower=-5, upper=5, subdivisions=10,000) #integral ~= 1
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item Find the median for your two sets of parameter(s). Conduct some research 
 	to find the median based on our PDF to confirm that your numerical approach is 
-	correct. 
+	correct. \\
+	\textbf{Solution:}
 <<>>= 
 points<-data.frame(x=seq(-5,5,0.001),
                   f1=dnorm(x=seq(-5,5,0.001),mean=0,sd=1),
@@ -138,7 +139,8 @@ g2
   \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
   two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram of each set
   of data and superimpose the true density function at the specified parameter 
-  values. Interpret the results.
+  values. Interpret the results.\\
+  \textbf{Solution:}
 <<>>= 
 library(patchwork)
 
@@ -250,7 +252,8 @@ p2d <- ggplot(df, aes(x = a)) +
 %%%%%%%%%  Part (a)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Provide the mean, standard deviation, skewness, and kurtosis of the PDF.
-Ensure to interpret each.
+Ensure to interpret each.\\
+\textbf{Solution:}
 
 <<>>=
 #function that returns mean, SD, skew, and kurtosis for Gaussian PDF 
@@ -267,7 +270,7 @@ norm.summary <- function(mu,sigma){
 norm.summary(0,1)
 norm.summary(1,2)
 @
-
+The parameters for the Gaussian distribution are out inputs, so it is expected to get the parameters back for mean and standard deviation. The skewness and kurtosis for the Guassian distribution are always 0. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%  Part (b)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -363,7 +366,8 @@ Overall, as sample size increases the sample statistics approach the distributio
 Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
 In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
 of moments estimated distribution, (2) the maximum likelihood estimated 
-distribution, and superimpose the true distribution in both.
+distribution, and superimpose the true distribution in both.\\
+\textbf{Solution:}
 \\
 Plots are created using \cite{gridExtra}
 
@@ -423,7 +427,6 @@ p1.mom <- ggplot(data = ggdat.mom, aes(x=x, y = F2))+
         legend.text = element_text(margin = margin(r = 15))) +
   theme(legend.title = element_blank())
 
-####################
 #MLE: n = 10
 mle.m0.sd1 <- optim(par = c(0,1),
                     fn = norm.ll,
@@ -520,7 +523,8 @@ grid.arrange(arrangeGrob(p1.mom,
 Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
 In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
 of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
-and superimpose the true distribution in both.
+and superimpose the true distribution in both.\\
+\textbf{Solution:}
 
 <<message=FALSE, warning=FALSE>>=
 #################################### n = 25, par 1 ############################
@@ -645,7 +649,8 @@ grid.arrange(arrangeGrob(p1.mom,
 Calculate the method of moments estimator(s) and maximum likelihood estimator(s).
 In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
 of moments estimated distribution, (2) the maximum likelihood estimated distribution,
-and superimpose the true distribution in both.
+and superimpose the true distribution in both.\\
+\textbf{Solution:}
 
 <<message=FALSE, warning=FALSE>>=
 #################################### n = 100, par 1 ###########################
@@ -771,7 +776,8 @@ grid.arrange(arrangeGrob(p1.mom,
 Calculate the method of moments estimator(s) and maximum likelihood estimator(s). 
 In a $1 \times 2$ grid, plot a histogram of each set of data with (1) the method 
 of moments estimated distribution, (2) the maximum likelihood estimated distribution, 
-and superimpose the true distribution in both.
+and superimpose the true distribution in both.\\
+\textbf{Solution:}
 
 <<message=FALSE, warning=FALSE>>=
 #################################### n = 1000, par 1 ##########################
@@ -893,7 +899,8 @@ grid.arrange(arrangeGrob(p1.mom,
 %%%%%%%%%  Part (g)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Comment on the results of parts (c)-(f). \\
-As expected, as n increases the estimated distributions become more similar to the true distributions. The MOM and MLE estimators seem to be comparable estimators, and usually come up with very similar results depending on the random sample. 
+\textbf{Solution:}\\
+As expected, as n increases the estimated distributions become more similar to the true distributions. The MOM and MLE estimators seem to be comparable estimators, and usually come up with very similar results depending on the random sample. An interesting observation is that it seems the estimators do a better job with the first set of parameters than the second. 
 \end{enumerate}
 \newpage
 
