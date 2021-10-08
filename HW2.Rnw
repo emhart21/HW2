@@ -42,11 +42,19 @@
   Google Scholar by clicking the cite button below the article of  interest and 
   selecting the BibTeX option. 
   \\ 
-\textbf{Solution:} Here I cite \citep{10.2307/43288461} and \citep{10.2307/27642916}. We chose to look at the Gaussian distribution for our continuous distribution. The Gaussian distribution is also known as the normal distribution and is very common in terms of independent, randomly generated variables. It is well known for the bell-shaped curve and is a very important probability graph in statistics. Its characterized by two parameters, the mean and standard deviation. Abraham DeMoivre derived formulas related to the curve early on in the 1600s; however, the name "Gaussian distribution" comes from Carl Friedrich Gauss, a German mathematician. He independently created a two-parameter exponential function in 1809 related to astronomical observation errors. James Clerk Maxwell, a British physicist, also had an early application of the normal distribution in 1859 with his law of distribution of molecular velocities. The "normal curve" formally appeared in 1870.   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{Solution:}\\ We chose to look at the Gaussian distribution for our continuous distribution. According to \citep{10.2307/43288461} and \citep{10.2307/27642916}, the Gaussian distribution is also known as the normal distribution and is very common in terms of independent, randomly generated variables. It is well known for the bell-shaped curve and is a very important probability graph in statistics. Its characterized by two parameters, the mean and standard deviation. Abraham DeMoivre derived formulas related to the curve early on in the 1600s; however, the name "Gaussian distribution" comes from Carl Friedrich Gauss, a German mathematician. He independently created a two-parameter exponential function in 1809 related to astronomical observation errors. James Clerk Maxwell, a British physicist, also had an early application of the normal distribution in 1859 with his law of distribution of molecular velocities. The "normal curve" formally appeared in 1870. Mu is used here as the population mean and sigma as the population standard deviation with mu in the real numbers and sigma in the positive real numbers. The probability density function for the normal distribution with mean mu and standard deviation sigma is:
+$$F(x) = \frac{1}{(\sigma\sqrt{2\pi})}e^{-(x-\mu)^2/2\sigma^2}
+$$ \\
+Note that the support is:
+$$ 
+X = {x:x\in\mathbb{R}}
+$$
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (b)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item Show that you have a valid PDF. You will find the \texttt{integrate()} 
-	function in \texttt{R} helpful. 
+	function in \texttt{R} helpful. \\
+\textbf{Solution:} Here we see all positive observations and an integral equal to approximately 1, which tells us we are working with a valid PDF.
 	<<>>=
 x <- seq(-5,5,0.001)	
 all(dnorm(x) >= 0)   #all positive 
@@ -58,7 +66,7 @@ integrate(dnorm, lower=-5, upper=5, subdivisions=10,000) #integral ~= 1
 	\item Find the median for your two sets of parameter(s). Conduct some research 
 	to find the median based on our PDF to confirm that your numerical approach is 
 	correct. \\
-	\textbf{Solution:}
+\textbf{Solution:} Note here the medians are approximately equal to the means, which are 0 and 1 in this case. In normal distributions, the mean = median = mode. 
 <<>>= 
 points<-data.frame(x=seq(-5,5,0.001),
                   f1=dnorm(x=seq(-5,5,0.001),mean=0,sd=1),
@@ -68,14 +76,14 @@ points<-data.frame(x=seq(-5,5,0.001),
                   f5=dnorm(x=seq(-5,5,0.001),mean=0,sd=2))
 median(points$f1)
 median(points$f2)
-#since this is a normal distribution the median and mean should be approximately equal 
 @
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (d)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item \label{q1PDF} Graph the PDF for several values of the parameter(s) 
 	including the two sets you specified. What does changing the parameter(s) do 
-	to the shape of the PDF?
+	to the shape of the PDF?\\
+	\textbf{Solution:} Changing the mean of these curves affects where the peak (max) is along the x-axis. The standard deviation determines the actual height (max). The curves with standard deviations of 2 are smaller than those with standard deviation 1. 
 	<<>>=
 library(ggplot2)
 g1<-ggplot(data=points,aes(x=x))+
@@ -98,13 +106,14 @@ g1<-ggplot(data=points,aes(x=x))+
         legend.text = element_text(margin = margin(r = 15)))
 g1
 @
-\textbf{Solution:} Changing the mean of these curves affects where the peak (max) is along the x-axis. The standard deviation determines the actual height (max). The curves with standard deviations of 2 are smaller than those with standard deviation 1. 
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (e)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	 \item Graph the CDF for the same values of the parameter(s) as you did in 
 	 Question \ref{q1PDF}. What does changing the parameter(s) do to the shape of 
-	 the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.
+	 the CDF? Comment on the aspects of the CDFs that show that the CDF is valid.\\
+	 \textbf{Solution:} Increasing the mean shifts the curves on the x-axis and where they end up when f(x) is 0.5. The standard deviation effects their path in terms of steepness. The curves with standard deviation 1 are steeper than the curves with standard deviation. Further, the validity of this CDF is shown as all values are positive and less than or equal to 1. 
 	 <<>>=
 points2<-data.frame(x=seq(-5,5,0.001),
                     f1=pnorm(q=seq(-5,5,0.001),mean=0,sd=1),
@@ -132,15 +141,15 @@ g2<-ggplot(data=points2,aes(x=x))+
         legend.text = element_text(margin = margin(r = 15)))
 g2
 @
-\textbf{Solution:} Increasing the mean shifts the curves on the x-axis and where they end up when f(x) is 0.5. The standard deviation effects their path in terms of steepness. The curves with standard deviation 1 are steeper than the curves with standard deviation. Further, the validity of this CDF is shown as all values are positive and less than or equal to 1. 
+
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%  Part (f)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \item Generate a random sample of size $n=10, 25, 100$, and $1000$ for your 
   two sets of parameter(s). In a $4 \times 2$ grid, plot a histogram of each set
   of data and superimpose the true density function at the specified parameter 
-  values. Interpret the results.\\
-  \textbf{Solution:}
+  values. Interpret the results. \\
+\textbf{Solution:} Below it is clear that as the sample size increases, the histograms of the observations get closer to the true density function at the specified parameter. Eventually with a very large sample and very small bins for the histogram, they would look essentially the same. We see the same trend regardless of which parameter set is used. In the graphs below, notice how the histogram bins become more fitting to the red, for the first parameter set, or blue, for the second parameter set, curves. 
 <<>>= 
 library(patchwork)
 
@@ -237,7 +246,6 @@ p2d <- ggplot(df, aes(x = a)) +
   ylab("Density") +
   ggtitle("Gaussian",subtitle="Random sample of 1000, mean=1, sd=2")
 (p1a + p2a) / (p1b + p2b) / (p1c + p2c) / (p1d + p2d)
-#	(p1a + p1b + p1c + p1d) / (p2a + p2b + p2c + p2d)
 @
 	\end{enumerate}
 \newpage
